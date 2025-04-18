@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Container, Form, Button } from "react-bootstrap";
+import { Container, Form, Button , Spinner } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -9,6 +9,8 @@ import { AuthContext } from "../store/authentication";
 const Login = () => {
   const [captchaToken, setCaptchaToken] = useState("");
   let { Token, setToken } = useContext(AuthContext);
+  const [action , setAction] = useState(false)
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -30,6 +32,7 @@ const Login = () => {
       return;
     }
     try {
+      setAction(true)
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`, formData);
       toast.success(response.data.message);
       setToken(response.data.token);
@@ -38,8 +41,10 @@ const Login = () => {
       localStorage.setItem("userId", response.data.userId);
       navigate("/");
       window.location.reload();
+      setAction(false)
 
     } catch (error) {
+      setAction(false)
       toast.error(error.response?.data?.message || "Login failed.");
     }
   };
@@ -85,8 +90,14 @@ const Login = () => {
               onChange={(token) => setCaptchaToken(token)}
             />
           </div>
-          <Button variant="primary" type="submit" className="w-100 text-light" >
-            Login
+          <Button variant="primary" type="submit" className="w-100 text-light" disabled={action} >
+                                       {action? (
+                            <>
+                              Processing <Spinner animation="border" size="sm" />
+                            </>
+                          ) : (
+                            "Login"
+                          )}
           </Button>
 
           <p className="text-center text-light mt-3">

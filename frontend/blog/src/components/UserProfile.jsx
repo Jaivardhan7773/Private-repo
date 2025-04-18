@@ -8,6 +8,7 @@ const UserProfile = () => {
   const userId = localStorage.getItem("userId");
   const [imageFile, setImageFile] = useState(null);
   const [imageuploading , setImageuploading] = useState(false);
+  const [ saving , setSaving] = useState(false);
   useEffect(() => {
     const fetchUser = async () => {
       const token = localStorage.getItem("Token")
@@ -90,6 +91,7 @@ const UserProfile = () => {
     e.preventDefault();
   
     try {
+      setSaving(true)
       const response = await axios.put(`${import.meta.env.VITE_API_URL}/updateUser/${userId}`, {
         name: user.name,
         phone: user.phone,
@@ -101,7 +103,9 @@ const UserProfile = () => {
   
       setUser(response.data); 
       toast.success("Profile updated successfully!");
+      setSaving(false)
     } catch (error) {
+      setSaving(false)
       console.error("Error updating profile:", error.response?.data || error.message);
       toast.error("Failed to update profile.");
     }
@@ -138,14 +142,14 @@ const UserProfile = () => {
               </label>
               <div className="mt-2">
                 {user.profileImage ? (
-                  <Button variant="outline-danger" size="sm" onClick={handleRemoveImage}>
+                  <Button variant="outline-danger" size="sm" onClick={handleRemoveImage} disabled={imageuploading}>
                     {imageuploading ? <> removing image<Spinner animation="border" size="sm"/></> : "remove image"}
 
                   </Button>
                 ) : (
                   <>
-                    <Form.Control type="file" accept="image/*" id="file-upload" onChange={handleFileChange} />
-                    <Button variant="outline-primary" size="sm" className="mt-2" onClick={handleUpload}>
+                    <Form.Control type="file" accept="image/*" id="file-upload" onChange={handleFileChange}  />
+                    <Button variant="outline-primary" size="sm" className="mt-2" onClick={handleUpload} disabled={imageuploading}>
 {imageuploading ? <> uploading image <Spinner animation="border" size="sm"/></> : "upload profile"}
                     </Button>
                   </>
@@ -211,7 +215,14 @@ const UserProfile = () => {
 
 <div className="text-center">
   <Button variant="primary" type="submit" onClick={handleUpdate}>
-    Save Changes
+    
+    {saving ? (
+                            <>
+                              Saving Changes <Spinner animation="border" size="sm" />
+                            </>
+                          ) : (
+                            "Save Changes"
+                          )}
   </Button>
 </div>
 
