@@ -19,6 +19,10 @@ const allowedOrigins = [
   "https://aizennx.netlify.app",
 ];
 
+app.get('/loaderio-52f6f0ddfe133259514acdfe601cf60c', (req, res) => {
+  res.send('loaderio-52f6f0ddfe133259514acdfe601cf60c');
+});
+
 app.use(cors({
   origin: allowedOrigins,
   credentials: true,
