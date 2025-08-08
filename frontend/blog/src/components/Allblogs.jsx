@@ -54,7 +54,8 @@ const Allblogs = () => {
           ) : (
             [...blogs].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0 , 8).map((blog) => (
 
-              <Col lg={6} key={blog._id} className="mb-4">
+              <Col lg={6} key={`${blog._id}-${blog.createdAt || Math.random()}`}
+ className="mb-4">
                 <Card className="cardbg"  data-aos="zoom-in-up" onClick={() => {
                   navigate(`/blog/${blog._id}`);
                   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -73,7 +74,7 @@ const Allblogs = () => {
                     }}
                   />
                   <Card.Body>
-                    <Card.Text>{blog.tags.join(" · ")}</Card.Text>
+                    <Card.Text>{blog.tags?.join(" · ")}</Card.Text>
                     <Card.Title>{blog.title}</Card.Title>
                     <Card.Text>{blog.introduction?.substring(0, 300) || "No intro"}...</Card.Text>
                     <Card.Text className="d-flex justify-content-between wordbreak">
@@ -81,7 +82,7 @@ const Allblogs = () => {
                       <span className="wordbreak">{blog.category}</span>
                     </Card.Text>
                     <Card.Text>
-                      {new Date(blog.createdAt).toISOString().split("T")[0]}
+                      {blog.createdAt ? new Date(blog.createdAt).toISOString().split("T")[0] : "Unknown date"}
                     </Card.Text>
                   </Card.Body>
                 </Card>

@@ -48,18 +48,18 @@ const posts = [
   {
     id: 1,
     title: "yoi",
-    body : "ai ai sir"
+    body: "ai ai sir"
   }
 ];
-app.post('/pusharray' , (req , res) => {
-const newpost = {
-  id: posts.length +1 ,
-  title: req.body.title ,
-  body : req.body.body,
-};
-posts.push(newpost);
-res.status(201).json({message : "created a new post "});
-console.log(posts);
+app.post('/pusharray', (req, res) => {
+  const newpost = {
+    id: posts.length + 1,
+    title: req.body.title,
+    body: req.body.body,
+  };
+  posts.push(newpost);
+  res.status(201).json({ message: "created a new post " });
+  console.log(posts);
 })
 
 
