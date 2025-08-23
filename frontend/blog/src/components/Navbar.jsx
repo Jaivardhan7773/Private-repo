@@ -107,7 +107,8 @@ const Navbarog = () => {
               maxHeight: "40px", maxWidth: "40px",
               position: "relative",
               left: '5px',
-              bottom: '4px'
+              bottom: '4px',
+              alt:'Jaivardhan singh '
             }} />
             izen
             <img src='https://cdn-icons-png.flaticon.com/128/16083/16083469.png'  className="navbarlogo" style={{
@@ -115,6 +116,8 @@ const Navbarog = () => {
               maxWidth: "30px",
               position: "relative",
               right: '5px'
+            ,
+              alt:'Jaivardhan singh '
             }} />
           </Navbar.Brand>
 
