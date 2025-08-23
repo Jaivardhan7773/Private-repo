@@ -5,6 +5,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Allblogs from './Allblogs';
 import Carousel from './carousel';
 import Footer from './footer';
+import AdSenseAd from './AdSenseAd';
+import AutoAds from './AutoAds';
 import { NavLink  ,useNavigate} from "react-router-dom";
 const Home = () => {
    const navigate = useNavigate();
@@ -48,7 +50,9 @@ setLoading(false);
     <>
   
     <Carousel/>
+    <AdSenseAd />
     <Allblogs/>
+    <AutoAds/>
 
 <div className="bg-light">
   <div className="formbackground">
