@@ -15,8 +15,7 @@ const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 const allowedOrigins = [
   "https://aizenx.netlify.app",
-  "http://localhost:3000",
-  "https://aizennx.netlify.app",
+  "https://aizenx.vercel.app",
 ];
 
 app.get('/loaderio-52f6f0ddfe133259514acdfe601cf60c', (req, res) => {
