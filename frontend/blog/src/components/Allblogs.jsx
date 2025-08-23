@@ -66,6 +66,7 @@ const Allblogs = () => {
                     variant="top"
                     src={blog.image}
                     alt={blog.title}
+                    loading="lazy"
                     style={{
                       maxHeight: "400px",
                       minHeight: "400px",
