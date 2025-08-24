@@ -70,8 +70,7 @@ function App() {
 
         <Route
           path="/blog/:id"
-          element={Token?<BlogDetails/>:<Login/>
-          }
+          element={<BlogDetails/>}
         />
         <Route path="/Userprofile" element={Token?<UserProfile/>:<Login/>} />
         <Route path="/totalblogs" element={<Totalblogs />} />
