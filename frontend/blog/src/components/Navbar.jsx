@@ -108,17 +108,17 @@ const Navbarog = () => {
               position: "relative",
               left: '5px',
               bottom: '4px',
-              alt:'Jaivardhan singh '
-            }} />
+            }}
+              alt='Jaivardhan singh aizenx logo'/>
             izen
             <img src='https://cdn-icons-png.flaticon.com/128/16083/16083469.png'  className="navbarlogo" style={{
               maxHeight: "40px",
               maxWidth: "30px",
               position: "relative",
-              right: '5px'
-            ,
-              alt:'Jaivardhan singh '
-            }} />
+              right: '5px',
+          
+            }}
+              alt='Jaivardhan singh aizenx logo'/>
           </Navbar.Brand>
 
 
