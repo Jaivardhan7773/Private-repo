@@ -1,0 +1,215 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap');
+
+:root {
+  /* Industrial Enterprise Theme (Dark Default) */
+  --bg-primary: #09090b;
+  /* Zinc 950 */
+  --bg-secondary: #18181b;
+  /* Zinc 900 */
+  --bg-glass: rgba(24, 24, 27, 0.8);
+  --text-primary: #f4f4f5;
+  /* Zinc 100 */
+  --text-secondary: #a1a1aa;
+  /* Zinc 400 */
+  --text-tertiary: #52525b;
+  /* Zinc 600 */
+
+  /* Accents - Amber Industrial */
+  --accent-primary: #f59e0b;
+  /* Amber 500 */
+  --accent-secondary: #d97706;
+  /* Amber 600 */
+  --accent-hover: #fbbf24;
+  /* Amber 400 */
+  --accent-glow: rgba(245, 158, 11, 0.3);
+
+  /* Borders */
+  --border-color: #27272a;
+  /* Zinc 800 */
+  --glass-border: 1px solid var(--border-color);
+
+  /* Fonts */
+  --font-main: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Feedback */
+  --success-color: #10b981;
+  /* Emerald 500 */
+  --error-color: #ef4444;
+  /* Red 500 */
+  --toast-bg: rgba(24, 24, 27, 0.95);
+  --shadow-color: rgba(0, 0, 0, 0.8);
+}
+
+[data-theme='light'] {
+  /* Industrial Light (Clean Lab) */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f4f4f5;
+  /* Zinc 100 */
+  --bg-glass: rgba(255, 255, 255, 0.9);
+  --text-primary: #09090b;
+  /* Zinc 950 */
+  --text-secondary: #52525b;
+  /* Zinc 600 */
+  --text-tertiary: #a1a1aa;
+  /* Zinc 400 */
+
+  --accent-primary: #d97706;
+  /* Amber 600 (Darker for contrast) */
+  --accent-secondary: #b45309;
+  /* Amber 700 */
+  --accent-hover: #f59e0b;
+  --accent-glow: rgba(217, 119, 6, 0.2);
+
+  --border-color: #e4e4e7;
+  /* Zinc 200 */
+  --glass-border: 1px solid var(--border-color);
+
+  --toast-bg: rgba(255, 255, 255, 0.95);
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Industrial Utility Classes */
+.font-mono {
+  font-family: var(--font-mono) !important;
+}
+
+.text-accent {
+  color: var(--accent-primary) !important;
+}
+
+.bg-secondary {
+  background-color: var(--bg-secondary) !important;
+}
+
+/* Industrial Panel (Replaces Glass Panel) */
+.glass-panel {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(8px);
+  /* Less blur, more solid */
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 0;
+  /* Sharp corners for industrial look */
+  position: relative;
+}
+
+/* Decorative Corner Brackets (Mocking via ::before/::after) */
+.glass-panel::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 12px;
+  height: 12px;
+  border-top: 2px solid var(--accent-primary);
+  border-left: 2px solid var(--accent-primary);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.glass-panel::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 12px;
+  height: 12px;
+  border-bottom: 2px solid var(--accent-primary);
+  border-right: 2px solid var(--accent-primary);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Industrial Input */
+.glass-input {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 12px 16px;
+  border-radius: 0;
+  /* Sharp */
+  width: 100%;
+  font-family: var(--font-mono);
+  transition: all 0.3s ease;
+}
+
+.glass-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.glass-input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 1px var(--accent-glow);
+  background: var(--bg-secondary);
+}
+
+/* Industrial Button */
+.btn-primary-glow {
+  background: var(--accent-primary);
+  color: #000;
+  /* Black text on amber */
+  border: none;
+  padding: 12px 24px;
+  border-radius: 0;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+
+.btn-primary-glow:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--accent-glow);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-primary);
+}

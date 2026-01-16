@@ -40,73 +40,97 @@ function Sidebar() {
 </div>
 
 
-      <Offcanvas show={show} onHide={handleClose} style={{ maxWidth: "300px" }}>
-        <Offcanvas.Header closeButton>
-          <Offcanvas.Title className="ps-5 ms-4">  <Navbar.Brand
-            href="#"
-            style={{
-              fontFamily: "'Tektur', sans-serif",
-              fontOpticalSizing: "auto",
-              fontWeight: 700, 
-              fontStyle: "normal",
-              fontVariationSettings: '"wdth" 100',
-              fontSize: "clamp(1.2rem, 2vw, 2rem)"
-            }}
+<Offcanvas 
+  show={show} 
+  onHide={handleClose} 
+  placement="start" 
+  style={{ maxWidth: "280px", background: "#1e1e2f", color: "#fff" }}
+>
+  <Offcanvas.Header closeButton closeVariant="white">
+    <Offcanvas.Title className="mx-auto">
+      <Navbar.Brand
+        href="#"
+        style={{
+          fontFamily: "'Tektur', sans-serif",
+          fontWeight: 700,
+          fontSize: "clamp(1.2rem, 2vw, 2rem)",
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          color: "#fff"
+        }}
+      >
+        <img
+          src="https://cdn-icons-png.flaticon.com/128/8149/8149827.png"
+          style={{ maxHeight: "35px" }}
+          alt="aizenx by jaivardhan"
+        />
+        <span>izen</span>
+        <img
+          src="https://cdn-icons-png.flaticon.com/128/16083/16083469.png"
+          style={{ maxHeight: "35px" }}
+          alt="aizenx by jaivardhan"
+        />
+      </Navbar.Brand>
+    </Offcanvas.Title>
+  </Offcanvas.Header>
+
+  <Offcanvas.Body className="px-3">
+    <nav>
+      <ul className="list-unstyled d-flex flex-column gap-2">
+        <li>
+          <button 
+            className="w-100 text-start px-3 py-2 rounded bg-transparent border-0 text-light fw-semibold sidebar-btn"
+            onClick={() => setActiveComponent(<Admin />)}
           >
-            <img src='https://cdn-icons-png.flaticon.com/128/8149/8149827.png' style={{
-              maxHeight: "40px", maxWidth: "40px",
-              position: "relative",
-              left: '5px',
-              bottom: '4px'
-            }} />
-            izen
-            <img src='https://cdn-icons-png.flaticon.com/128/16083/16083469.png' style={{
-              maxHeight: "40px",
-              maxWidth: "30px",
-              position: "relative",
-              right: '5px'
-            }} />
-          </Navbar.Brand></Offcanvas.Title>
-        </Offcanvas.Header>
-        <Offcanvas.Body>
-          <div className="nav">
-            <nav>
-              <ul>
-                <li>
-                  <button className="btn w-100 text-start" onClick={() => setActiveComponent(<Admin />)}>
-                    Manage Users
-                  </button>
-                </li>
-                <li>
-                  <button className="btn w-100 text-start" onClick={() => setActiveComponent(<Adminquery />)}>
-                    Admin Query
-                  </button>
-                </li>
-                <li>
-                  <button className="btn w-100 text-start" onClick={() => setActiveComponent(<Admincarousel />)}>
-                    Admin Carousel
-                  </button>
-                </li>
-                <li>
-                  <button className="btn w-100 text-start" onClick={() => setActiveComponent(<AdminBlog />)}>
-                    Admin Blog
-                  </button>
-                </li>
-                <li>
-                  <button className="btn w-100 text-start" onClick={() => setActiveComponent(<EditorRequest />)}>
-                    Editor Request
-                  </button>
-                </li>
-                <li>
-                  <button className="btn w-100 text-start" onClick={() => setActiveComponent(<Addlyrics />)}>
-                    Manage Songs
-                  </button>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </Offcanvas.Body>
-      </Offcanvas>
+            👤 Manage Users
+          </button>
+        </li>
+        <li>
+          <button 
+            className="w-100 text-start px-3 py-2 rounded bg-transparent border-0 text-light fw-semibold sidebar-btn"
+            onClick={() => setActiveComponent(<Adminquery />)}
+          >
+            ❓ Admin Query
+          </button>
+        </li>
+        <li>
+          <button 
+            className="w-100 text-start px-3 py-2 rounded bg-transparent border-0 text-light fw-semibold sidebar-btn"
+            onClick={() => setActiveComponent(<Admincarousel />)}
+          >
+            🎠 Admin Carousel
+          </button>
+        </li>
+        <li>
+          <button 
+            className="w-100 text-start px-3 py-2 rounded bg-transparent border-0 text-light fw-semibold sidebar-btn"
+            onClick={() => setActiveComponent(<AdminBlog />)}
+          >
+            📝 Admin Blog
+          </button>
+        </li>
+        {/* <li>
+          <button 
+            className="w-100 text-start px-3 py-2 rounded bg-transparent border-0 text-light fw-semibold sidebar-btn"
+            onClick={() => setActiveComponent(<EditorRequest />)}
+          >
+            ✍️ Editor Request
+          </button>
+        </li> */}
+        <li>
+          <button 
+            className="w-100 text-start px-3 py-2 rounded bg-transparent border-0 text-light fw-semibold sidebar-btn"
+            onClick={() => setActiveComponent(<Addlyrics />)}
+          >
+            🎵 Manage Songs
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </Offcanvas.Body>
+</Offcanvas>
+
 
      
       <div className="content-area flex-grow-1 ">{activeComponent}</div>

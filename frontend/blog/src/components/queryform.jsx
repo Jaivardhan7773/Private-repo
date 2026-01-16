@@ -1,6 +1,5 @@
 import { useState } from "react";
-import React  from 'react'
-import axios from "axios";
+import axiosInstance from "../utills/axios.js";
 import {toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const Queryform = () => {
@@ -21,16 +20,9 @@ const handleSubmit = async (e) => {
   e.preventDefault();
 
   
-  const token = localStorage.getItem("Token");
-  if (!token) {
-    console.log("No token found!");
-    toast.error("Login first to send query");
-    return;
-  }
-
     setLoading(true);
     try{
-        await axios.post(`${import.meta.env.VITE_API_URL}/addQuery` , formData);
+        await axiosInstance.post("/addQuery" , formData);
         setFormData({ name: "", email: "", description: "" });
         toast.success("youe message has been sent successfully ")
     }
@@ -46,7 +38,7 @@ const handleSubmit = async (e) => {
    <>
              <form onSubmit={handleSubmit}>
             <div className="mb-3">
-              <label className="form-label">Your First Name</label>
+              <label className="form-label">Your First Namee</label>
               <input
                 type="text"
                 name="name"

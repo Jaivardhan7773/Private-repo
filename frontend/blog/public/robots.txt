@@ -1,5 +1,4 @@
 User-agent: *
 Disallow: /admin/
-Allow: /
 
-Sitemap: https://aizenx.netlify.app/sitemap.xml
+Sitemap: https://improved-aizenx.onrender.com/sitemap.xml

@@ -1,6 +1,6 @@
 const express = require('express');
 const Query = require("../models/query");
-const  adminMiddleware  = require("../middleware/adminMiddleware") 
+const { authMiddleware, aadminMiddleware } = require("../middleware/useAuthStore");
 const router = express.Router();
 router.post("/addQuery", async (req, res) => {
     try {
@@ -19,7 +19,7 @@ router.post("/addQuery", async (req, res) => {
     }
 });
 
-router.get("/getQuery",adminMiddleware  , async (req, res) => {
+router.get("/getQuery",authMiddleware, aadminMiddleware  , async (req, res) => {
     try {
         const allQueries = await Query.find();
 
@@ -36,7 +36,7 @@ router.get("/getQuery",adminMiddleware  , async (req, res) => {
     }
 });
 
-router.delete("/deleteQuery/:id", adminMiddleware  ,async (req, res) => {
+router.delete("/deleteQuery/:id", authMiddleware, aadminMiddleware  ,async (req, res) => {
     try {
         const deleteThat = await Query.findByIdAndDelete(req.params.id);
         if (!deleteThat) {

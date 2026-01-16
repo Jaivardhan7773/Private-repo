@@ -1,43 +1,18 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Table, Container , Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { useAdminStore } from "../store/admin/useAdminStore";
 const Adminquery = () => {
-  const [queries, setQueries] = useState([]);
-const [loading , setLoading] = useState(true)
+
+const {fetchQueries , queries , loading , handleDeleteQuery} = useAdminStore()
 
   useEffect(() => {
-    fetchQueries();
-  }, []);
-
-  const fetchQueries = async () => {
-    const token = localStorage.getItem("Token");
-    try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/getQuery`  , {
-        headers : { Authorization : `Bearer ${token}`}
-      });
-      setQueries(response.data);
-      setLoading(false)
-    } catch (error) {
-      toast.error("Failed to fetch queries. Please try again later.");
+    if(queries.length===0){
+      fetchQueries();
     }
-  };
-
-  const handleDelete = async (queryId) => {
-    const token = localStorage.getItem("Token");
-    try {
-      await axios.delete(`${import.meta.env.VITE_API_URL}/deleteQuery/${queryId}`, {
-        headers : { Authorization : `Bearer ${token}`}
-      });
-      toast.success("Query deleted successfully");
-      setQueries((prevQueries) => prevQueries.filter(query => query._id !== queryId));
-    } catch (error) {
-      console.error("Failed to delete query:", error);
-      toast.error("Failed to delete query");
-    }
-  };
+  }, [fetchQueries , queries.length]);
   return (
     <>
       <Container className="mt-4">
@@ -78,7 +53,7 @@ const [loading , setLoading] = useState(true)
             <td>{query.description}</td>
             <td>{new Date(query.createdAt).toLocaleString()}</td>
             <td>
-              <Button variant="danger" onClick={() => handleDelete(query._id)}>
+              <Button variant="danger" onClick={() => handleDeleteQuery(query._id)}>
                 Delete
               </Button>
             </td>

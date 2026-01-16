@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import axios from "axios";
-import ReCAPTCHA from "react-google-recaptcha";
+import { useToast } from "../context/ToastContext";
+import axiosInstance from "../utills/axios.js";
+import { useAuthStore } from "../store/useAuthStore";
+import SEO from "../components/SEO";
 
 const Signup = () => {
-  const [captchaToken, setCaptchaToken] = useState("");
+  const { addToast } = useToast();
+  const { Signup, isSigningUp } = useAuthStore();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -22,6 +24,7 @@ const Signup = () => {
   const [resendDisabled, setResendDisabled] = useState(true);
   const [timer, setTimer] = useState(60);
   const [isOtpSending, setIsOtpSending] = useState(false);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -30,16 +33,16 @@ const Signup = () => {
   const handleSendOtp = async () => {
 
     if (!formData.email) {
-      toast.error("Please enter an email first.");
+      addToast("Please enter an email first.", "error");
       return;
     }
     setIsOtpSending(true);
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/send-otp`, {
+      await axiosInstance.post("/send-otp", {
         email: formData.email,
       });
       setIsOtpSending(false);
-      toast.success("OTP sent to your email!");
+      addToast("OTP sent to your email!", "success");
       setOtpSent(true);
       setResendDisabled(true);
       setTimer(60);
@@ -55,7 +58,7 @@ const Signup = () => {
       }, 1000);
     } catch (error) {
       setIsOtpSending(false);
-      toast.error(error.response?.data?.message || "Failed to send OTP.");
+      addToast(error.response?.data?.message || "Failed to send OTP.", "error");
     }
   };
 
@@ -64,22 +67,17 @@ const Signup = () => {
     e.preventDefault();
 
     if (!otpSent) {
-      toast.error("Please verify your email by entering OTP.");
-      return;
-    }
-
-    if (!captchaToken) {
-      toast.error("Please verify that you are human.");
+      addToast("Please verify your email by entering OTP.", "error");
       return;
     }
 
     if (formData.password !== formData.confirmPassword) {
-      toast.error("Passwords do not match!");
+      addToast("Passwords do not match!", "error");
       return;
     }
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/signup`, {
+      const response = await axiosInstance.post("/signup", {
         name: formData.name,
         email: formData.email,
         password: formData.password,
@@ -88,7 +86,7 @@ const Signup = () => {
         otp: formData.otp,
       });
 
-      toast.success(response.data.message);
+      addToast(response.data.message, "success");
 
       setFormData({
         name: "",
@@ -102,160 +100,165 @@ const Signup = () => {
 
       navigate("/login");
     } catch (error) {
-      toast.error(error.response?.data?.message || "Signup failed.");
+      addToast(error.response?.data?.message || "Signup failed.", "error");
     }
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100 w-100">
-      <Container className="d-flex justify-content-center align-items-center">
-        <Form
-          className="p-4 my-5"
-          style={{
-            background: "rgba(99, 74, 74, 0.2)",
-            backdropFilter: "blur(10px)",
-            WebkitBackdropFilter: "blur(10px)",
-            borderRadius: "15px",
-            border: "1px solid rgba(255, 255, 255, 0.91)",
-            width: "400px",
-          }}
-          onSubmit={handleSubmit}
-        >
-          <h3 className="text-center mb-4 text-light">Sign Up</h3>
+    <>
+      <SEO
+        title="Sign Up"
+        description="Create your AizenX account and start sharing your thoughts with the world."
+        url="/signup"
+      />
+      <div className="d-flex justify-content-center align-items-center min-vh-100 w-100 py-5">
+        <Container className="d-flex justify-content-center">
+          <div
+            className="glass-panel p-5 animate-fade-in"
+            style={{ width: "100%", maxWidth: "500px" }}
+          >
+            <h2 className="text-center mb-4" style={{ color: 'var(--accent-primary)', fontWeight: 'bold' }}>
+              Create Account
+            </h2>
 
-          <Form.Group className="mb-3">
-            <Form.Label className="text-light">Full Name</Form.Label>
-            <Form.Control
-              type="text"
-              name="name"
-              placeholder="Enter full name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
+            <Form onSubmit={handleSubmit}>
+              <Form.Group className="mb-3">
+                <Form.Label style={{ color: 'var(--text-secondary)' }}>Full Name</Form.Label>
+                <Form.Control
+                  className="glass-input"
+                  type="text"
+                  name="name"
+                  placeholder="Enter full name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label className="text-light">Email address</Form.Label>
-            <Form.Control
-              type="email"
-              name="email"
-              placeholder="Enter email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
+              <Form.Group className="mb-3">
+                <Form.Label style={{ color: 'var(--text-secondary)' }}>Email address</Form.Label>
+                <Form.Control
+                  className="glass-input"
+                  type="email"
+                  name="email"
+                  placeholder="Enter email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
 
-          </Form.Group>
+              {otpSent && (
+                <Form.Group className="mb-3">
+                  <Form.Label className="text-warning">Enter OTP</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="otp"
+                    className="glass-input border-warning text-success"
+                    placeholder="Enter OTP"
+                    value={formData.otp}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+              )}
 
-          {otpSent && (
-            <Form.Group className="mb-3">
-              <Form.Label className="text-warning ">Enter OTP</Form.Label>
-              <Form.Control
-                type="text"
-                name="otp"
-                className="border border-warning border-3 text-success"
-                placeholder="Enter OTP"
-                value={formData.otp}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
-          )}
+              <Form.Group className="mb-3">
+                <Form.Label style={{ color: 'var(--text-secondary)' }}>Password</Form.Label>
+                <Form.Control
+                  className="glass-input"
+                  type="password"
+                  name="password"
+                  placeholder="••••••••"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label className="text-light">Password</Form.Label>
-            <Form.Control
-              type="password"
-              name="password"
-              placeholder="••••••••"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label style={{ color: 'var(--text-secondary)' }}>Confirm Password</Form.Label>
+                <Form.Control
+                  className="glass-input"
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="Confirm password"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label className="text-light">Confirm Password</Form.Label>
-            <Form.Control
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirm password"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label style={{ color: 'var(--text-secondary)' }}>Gender</Form.Label>
+                <Form.Select
+                  className="glass-input"
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </Form.Select>
+              </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label className="text-light">Gender</Form.Label>
-            <Form.Select
-              name="gender"
-              value={formData.gender}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </Form.Select>
-          </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label style={{ color: 'var(--text-secondary)' }}>Phone Number</Form.Label>
+                <Form.Control
+                  className="glass-input"
+                  type="tel"
+                  name="phone"
+                  placeholder="Enter phone number"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label className="text-light">Phone Number</Form.Label>
-            <Form.Control
-              type="tel"
-              name="phone"
-              placeholder="Enter phone number"
-              value={formData.phone}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
-
-          <div className="d-flex justify-content-center w-100 mb-3">
-            <ReCAPTCHA
-              sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
-              onChange={(token) => setCaptchaToken(token)}
-            />
-          </div>
-
-          {!otpSent ? (
-            <Button variant="primary" className="mt-2 w-100" onClick={handleSendOtp}>
-              {isOtpSending ? <><img src="https://s6.gifyu.com/images/bMwzP.gif" style={{ maxHeight: "25px", width: "50px" }} alt="Loading" /></> : "Verify Email "}
-            </Button>
-          ) : (
-            <>
-              <Button variant="primary" type="submit" className="w-100">
-                Sign Up
-              </Button>
-              <p className="text-center mt-3 text-light" style={{ cursor: "pointer" }}>
-                {resendDisabled ? `Resend OTP in ${timer}s` : (
-                  <span
-                  className="text-primary"
-                    onClick={handleSendOtp}
-                    style={{ cursor: "pointer", color: "#0d6efd", textDecoration: "underline" }}
+              {!otpSent ? (
+                <button
+                  type="button"
+                  className="btn-primary-glow w-100 mt-2"
+                  onClick={handleSendOtp}
+                  disabled={isOtpSending}
+                >
+                  {isOtpSending ? "Sending..." : "Verify Email"}
+                </button>
+              ) : (
+                <>
+                  <button
+                    type="submit"
+                    className="btn-primary-glow w-100 mt-2"
                   >
-                    Resend OTP
-                  </span>
-                )}
+                    Sign Up
+                  </button>
+                  <p className="text-center mt-3" style={{ color: 'var(--text-secondary)' }}>
+                    {resendDisabled ? `Resend OTP in ${timer}s` : (
+                      <span
+                        onClick={handleSendOtp}
+                        style={{ cursor: "pointer", color: "var(--accent-primary)", textDecoration: "underline" }}
+                      >
+                        Resend OTP
+                      </span>
+                    )}
+                  </p>
+                </>
+              )}
+
+              <p className="text-center mt-4" style={{ color: 'var(--text-secondary)' }}>
+                Already have an account?{" "}
+                <NavLink to="/login" style={{ color: "var(--accent-secondary)", textDecoration: 'none', fontWeight: 'bold' }}>
+                  Login here
+                </NavLink>
               </p>
-
-            </>
-          )}
-
-
-
-          <p className="text-center mt-3 text-light">
-            Already have an account?{" "}
-            <NavLink to="/login" className="text-warning text-decoration-none">
-              Login here
-            </NavLink>
-          </p>
-        </Form>
-      </Container>
-    </div>
+            </Form>
+          </div>
+        </Container>
+      </div>
+    </>
   );
 };
 

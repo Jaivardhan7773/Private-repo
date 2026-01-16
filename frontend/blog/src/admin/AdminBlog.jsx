@@ -1,48 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import { Card, Row, Col } from "react-bootstrap";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { useAdminStore } from "../store/admin/useAdminStore";
 const AdminBlog = () => {
-    const [blogs, setBlogs] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [categoryFilter, setCategoryFilter] = useState("");
     const navigate = useNavigate();
+    const {adminBlogs , blogs ,handleDeleteblog} = useAdminStore()
 
     useEffect(() => {
-        fetchAllBlogs();
-    }, []);
-
-    const fetchAllBlogs = async () => {
-        const token = localStorage.getItem("Token")
-
-        try {
-            const response = await axios.get(`${import.meta.env.VITE_API_URL}/allBlogs` , {
-                headers : {Authorization : `Bearer${token}`}
-            });
-            setBlogs(response.data);
-        } catch (error) {
-            toast.error("Failed to fetch blogs.");
+        if(blogs.length ===0 ){
+            adminBlogs();
         }
-    };
+    }, [adminBlogs  , blogs.length]);
 
-    const handleDeleteblog = async (blogId) => {
-        const token = localStorage.getItem("Token");
-        if (!window.confirm("Are you sure you want to delete this blog?")) return;
 
-        try {
-            await axios.delete(`${import.meta.env.VITE_API_URL}/deleteBlog/${blogId}`, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-            toast.success("Blog deleted successfully!");
-            fetchAllBlogs();
-        } catch (error) {
-            toast.error("Failed to delete blog.");
-        }
-    };
+
 
     const filteredBlogs = blogs.filter(blog =>
         (`${blog.title} ${blog.description} ${blog.tags.join(" ")} ${blog.author}`
@@ -90,7 +67,7 @@ const AdminBlog = () => {
                                             <span>{blog.category}</span>
                                         </Card.Text>
                                         <Card.Text>{new Date(blog.createdAt).toISOString().split("T")[0]}</Card.Text>
-                                        <Button variant="primary" onClick={() => navigate(`/blog/${blog._id}`)} className="w-100">
+                                        <Button variant="primary" onClick={() => navigate(`/blog/${blog.slug}`)} className="w-100">
                                             Read Now
                                         </Button>
                                         <Button variant="danger" onClick={() => handleDeleteblog(blog._id)} className="w-100 my-1">Delete</Button>

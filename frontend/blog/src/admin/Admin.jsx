@@ -1,168 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, Container, Spinner } from "react-bootstrap";
-import axios from "axios";
 import { toast } from "react-toastify";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { useAdminStore } from "../store/admin/useAdminStore.js";
 
 const Admin = () => {
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [action, setAction] = useState(false);
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const token = localStorage.getItem("Token");
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/getUsers`, {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-        );
-        setUsers(response.data);
-        setLoading(false)
-      } catch (error) {
-        toast.error("Failed to fetch users.");
-      }
-    };
-
-    fetchUsers();
-  }, []);
+  // const [loading, setLoading] = useState(true);
+  // const [action, setAction] = useState(false);
+const {getusers , allUsers , isAllusersloading , action, removeEditor , makeEditor , makeAdmin , removeAdmin , handleDelete} =  useAdminStore()
 
 
 
-
-  const makeEditor = async (userId) => {
-    const token = localStorage.getItem("Token")
-    try {
-      setAction((prev) => ({ ...prev, [userId]: true }));
-      await axios.patch(`${import.meta.env.VITE_API_URL}/makeEditor/${userId}`, {}, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      toast.success("user is now Editor");
-
-      setUsers((prevUsers) =>
-        prevUsers.map((user) =>
-          user._id === userId ? { ...user, isEditor: true } : user
-        )
-      );
-      setAction((prev) => ({ ...prev, [userId]: false }));
-    }
-    catch (error) {
-      setAction((prev) => ({ ...prev, [userId]: false }));
-      toast.error("cannot make user Editor")
-    }
-  };
-
-  const removeEditor = async (userId) => {
-    try {
-      setAction((prev) => ({ ...prev, [userId]: true }));
-      const token = localStorage.getItem("Token");
-      await axios.patch(`${import.meta.env.VITE_API_URL}/removeEditor/${userId}`, {}, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      toast.success("Editor privileges removed");
-
-      setUsers((prevUsers) =>
-        prevUsers.map((user) =>
-          user._id === userId ? { ...user, isEditor: false } : user
-        )
-      );
-      setAction((prev) => ({ ...prev, [userId]: false }));
-    } catch (error) {
-      setAction((prev) => ({ ...prev, [userId]: false }));
-      toast.error("Failed to remove Editor");
-    }
-  };
-
-
-
-  const makeAdmin = async (userId) => {
-    const token = localStorage.getItem("Token")
-    try {
-      setAction((prev) => ({ ...prev, [userId]: true }));
-      await axios.patch(`${import.meta.env.VITE_API_URL}/makeAdmin/${userId}`, {}, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      toast.success("user is now admin");
-
-      setUsers((prevUsers) =>
-        prevUsers.map((user) =>
-          user._id === userId ? { ...user, isAdmin: true } : user
-        )
-      );
-      setAction((prev) => ({ ...prev, [userId]: false }));
-
-    }
-    catch (error) {
-      setAction((prev) => ({ ...prev, [userId]: false }));
-
-      toast.error("cannot make user admin")
-    }
-  };
-
-  const removeAdmin = async (userId) => {
-    try {
-      setAction((prev) => ({ ...prev, [userId]: true }));
-      const token = localStorage.getItem("Token");
-      await axios.patch(`${import.meta.env.VITE_API_URL}/removeAdmin/${userId}`, {}, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      toast.success("Admin privileges removed");
-      // fetchUsers();
-      setUsers((prevUsers) =>
-        prevUsers.map((user) =>
-          user._id === userId ? { ...user, isAdmin: false } : user
-        )
-      );
-      setAction((prev) => ({ ...prev, [userId]: false }));
-
-    } catch (error) {
-      setAction((prev) => ({ ...prev, [userId]: false }));
-
-      toast.error("Failed to remove admin.");
-    }
-  };
-
-  const handleDelete = async (userId) => {
-    const token = localStorage.getItem("Token");
-    try {
-      await axios.delete(`${import.meta.env.VITE_API_URL}/deleteUser/${userId}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      toast.success("user deleted successfully");
-      setUsers(users.filter((user) => user._id !== userId));
-    }
-    catch (error) {
-      toast.error("Failed to delete user.");
-    }
-  }
-
-
+useEffect(() => {
+if(allUsers.length ===0 ){
+  getusers();
+}
+} , [getusers , allUsers.length]);
 
 
   return (
     <>
-
-
-      {/* <div
-      style={{
-        width: '100%',
-        padding: '40px 20px',
-   
-        textAlign: 'center',
-        fontSize: '2.5rem',
-        color: 'white',
-        fontFamily: 'Arial, sans-serif',
-        background: 'linear-gradient(22deg, rgba(116,255,79,1) 0%, rgba(32,153,131,0.876715652081145)',
-        zIndex: 1, // lower than button
-        position: 'sticky', // required for zIndex to apply
-        top: 0,
-      }}
-      className="sticky-top"
-    >
-      User Management
-    </div> */}
 
       <Container className="mt-4">
         <h2 className="text-center text-light mb-3">User Management</h2>
@@ -181,7 +41,7 @@ const Admin = () => {
               </tr>
             </thead>
             <tbody>
-              {loading ? (
+              {isAllusersloading ? (
 
                 [...Array(5)].map((_, index) => (
                   <tr key={index}>
@@ -199,8 +59,8 @@ const Admin = () => {
                     </td>
                   </tr>
                 ))
-              ) : users.length > 0 ? (
-                users.map((user, index) => (
+              ) : allUsers && allUsers.length > 0 ? (
+                allUsers.map((user, index) => (
                   <tr key={user._id}>
                     <td>{index + 1}</td>
                     <td>{user.name}</td>

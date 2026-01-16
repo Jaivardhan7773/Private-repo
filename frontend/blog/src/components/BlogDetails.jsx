@@ -1,98 +1,127 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
-import { Container, Card, Button , Row , Col } from "react-bootstrap";
-import { toast } from "react-toastify";
+import axiosInstance from "../utills/axios.js";
+import { Container } from "react-bootstrap";
+import { useToast } from "../context/ToastContext";
 import Footer from './footer';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import SEO from "./SEO";
+import { ArrowLeft, User, Calendar, Tag } from "lucide-react";
+
 const BlogDetails = () => {
 
-  const { id } = useParams();
+  const { slug } = useParams();
   const [blog, setBlog] = useState(null);
   const navigate = useNavigate();
+  const { addToast } = useToast();
 
   useEffect(() => {
     fetchBlogDetails();
-  }, []);
+  }, [slug]);
 
   const fetchBlogDetails = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/blog/${id}`);
+      const response = await axiosInstance.get(`/blog/${slug}`);
       setBlog(response.data);
     } catch (error) {
-      toast.error("Failed to fetch blog details.");
+      addToast("Failed to fetch blog details.", "error");
     }
   };
 
+
   return (
     <>
-      <div className="bg-light">
-        <Container className="pt-5">
-          {blog ? (
-            <Card
-              className=" pb-5  d-flex flex-column " >
-              <Card.Title>
-                <div className="d-flex justify-content-between align-items-center">
-                  <h5 className="mx-auto text-center">{blog.title}</h5>
-                  <img
-                    src="https://cdn-icons-png.flaticon.com/128/2961/2961937.png"
-                    alt="Go Back"
-                    className="mt-2 me-2"
-                    onClick={() => {
-                      window.scrollTo(0, 850);
-                      navigate("/");
-                    }}
-                    style={{ cursor: "pointer", width: "30px", height: "30px" }}
-                  />
-                </div>
-              </Card.Title>
+      {blog && (
+        <SEO
+          title={blog.title}
+          description={blog.introduction?.substring(0, 160)}
+          keywords={blog.tags?.join(", ")}
+          image={blog.image}
+          url={`/blog/${blog.slug}`}
+          author={blog.author}
+          date={blog.createdAt}
+          type="article"
+        />
+      )}
 
-              <Card.Text className="text-center">
-                {blog.tags.join("\u00A0·\u00A0")}
-              </Card.Text>
-              <Card.Img
-                variant="top"
-                className="w-100 mb-5"
+      <div className="min-vh-100" style={{ background: 'var(--bg-primary)' }}>
+        {blog ? (
+          <>
+            {/* Full Width Hero Image with Overlay */}
+            <div style={{ position: 'relative', width: '100%', height: '50vh', minHeight: '400px' }}>
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 0%, var(--bg-primary) 100%)', zIndex: 2 }}></div>
+              <img
                 src={blog.image}
-                style={{ maxHeight: "800px", objectFit: "cover" }}
+                alt={blog.title}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.6 }}
               />
-              <Card.Body>
-              <Card.Text className="text-start">
-                {blog.introduction}
-              </Card.Text>
-                <Card.Text dangerouslySetInnerHTML={{ __html: blog.description }} />
-                <div className="d-flex justify-content-center mt-5">
-                  <Button variant="primary" onClick={() => {
-                    window.scrollTo(0, 850);
-                    navigate("/");
-                  }}>
-                    Go Back
-                  </Button>
+              <Container style={{ position: 'absolute', bottom: '2rem', left: '0', right: '0', zIndex: 3 }}>
+                <button
+                  onClick={() => navigate(-1)}
+                  className="btn d-flex align-items-center gap-2 mb-4 text-accent"
+                  style={{ fontFamily: 'var(--font-mono)' }}
+                >
+                  <ArrowLeft size={20} /> Back to Intelligence
+                </button>
+                <h1 className="display-4 fw-bold text-uppercase mb-3" style={{ fontFamily: 'var(--font-main)', textShadow: '2px 2px 4px black' }}>
+                  {blog.title}
+                </h1>
+                <div className="d-flex flex-wrap gap-4 text-light font-monospace small">
+                  <div className="d-flex align-items-center gap-2">
+                    <User size={16} className="text-accent" /> {blog.author}
+                  </div>
+                  <div className="d-flex align-items-center gap-2">
+                    <Calendar size={16} className="text-accent" /> {new Date(blog.createdAt).toISOString().split('T')[0]}
+                  </div>
+                  <div className="d-flex align-items-center gap-2">
+                    <Tag size={16} className="text-accent" /> {blog.category}
+                  </div>
                 </div>
+              </Container>
+            </div>
 
-              </Card.Body>
-            </Card>
-          ) : (
-            <div className="d-flex flex-column align-items-center justify-content-center w-100" style={{ minHeight: '100vh', padding: '1rem' }}>
-            <Card className="w-100 h-100 shadow-sm" style={{ maxWidth: '1000px' }}>
-            <Skeleton height={30} width="100%" highlightColor="#444" className="my-2" />
-            <Skeleton height={15} width="60%" highlightColor="#444" className="mb-2 mx-auto" />
-              <Skeleton height={400} width="100%" />
-              <Card.Body>
-                <Skeleton height={15} width="60%" highlightColor="#444" className="mb-2" />
-                <Skeleton height={20} width="80%" highlightColor="#444" className="mb-2" />
-                <Skeleton count={3} />
-                <Skeleton height={30} width="100%" highlightColor="#444" className="my-2" />
-                <Skeleton height={30} width="100%" highlightColor="#444" />
-              </Card.Body>
-            </Card>
-          </div>
-          
-          )}
-        </Container>
+            <Container className="py-5">
+              <div className="row">
+                <div className="col-lg-8 mx-auto">
+                  {/* Introduction Block */}
+                  <div className="p-4 mb-5" style={{ background: 'var(--bg-secondary)', borderLeft: '4px solid var(--accent-primary)' }}>
+                    <p className="lead mb-0 text-secondary italic">
+                      {blog.introduction}
+                    </p>
+                  </div>
+
+                  {/* Main Content - No Glass Panel, just text on background */}
+                  <div
+                    className="blog-content"
+                    style={{ color: 'var(--text-primary)', lineHeight: '1.9', fontSize: '1.1rem' }}
+                    dangerouslySetInnerHTML={{ __html: blog.description }}
+                  />
+
+                  {/* Tags */}
+                  <div className="mt-5 pt-4 border-top border-secondary">
+                    <h5 className="mb-3 font-monospace text-muted small">TAGGED IDENTIFIERS:</h5>
+                    <div className="d-flex flex-wrap gap-2">
+                      {blog.tags && blog.tags.map((tag, i) => (
+                        <span key={i} className="px-3 py-1 small font-monospace" style={{ border: '1px solid var(--border-color)', color: 'var(--text-secondary)' }}>
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </Container>
+          </>
+        ) : (
+          <Container className="py-5 mt-5">
+            <Skeleton height={400} className="mb-4" baseColor="var(--bg-secondary)" highlightColor="var(--border-color)" />
+            <Skeleton count={3} height={20} className="mb-2" baseColor="var(--bg-secondary)" highlightColor="var(--border-color)" />
+          </Container>
+        )}
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 };
