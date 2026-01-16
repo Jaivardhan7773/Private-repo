@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 const CommentaryComponent = () => {
     const [products, setProducts] = useState([]);

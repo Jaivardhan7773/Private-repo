@@ -2,8 +2,9 @@ const express = require("express");
 const songSchema = require("../models/songSchema");
 const router = express.Router();
 const  adminMiddleware  = require("../middleware/adminMiddleware") 
+const { authMiddleware, aadminMiddleware } = require("../middleware/useAuthStore");
 
-router.post("/admin/postlyrics", adminMiddleware , async (req, res) => {
+router.post("/admin/postlyrics", authMiddleware, aadminMiddleware , async (req, res) => {
     try {
         const { title, lyrics, artist, language, hashtags , image } = req.body;
         if (!title || !lyrics || !artist || !language || !hashtags || !image) {
@@ -29,7 +30,7 @@ router.get("/getlyrics" , async (req, res) => {
     }
 });
 
-router.delete("/deletelyrics/:id" , adminMiddleware , async (req , res) => {
+router.delete("/deletelyrics/:id" , authMiddleware, aadminMiddleware , async (req , res) => {
     try{
         const { id } = req.params;
         const deletesong = await songSchema.findByIdAndDelete(id);

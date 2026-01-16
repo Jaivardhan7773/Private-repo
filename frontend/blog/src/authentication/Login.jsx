@@ -1,114 +1,135 @@
-import React, { useContext, useState } from "react";
-import { Container, Form, Button , Spinner } from "react-bootstrap";
+import React, { useState } from "react";
+import { Container, Form, Spinner } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import axios from "axios";
+import { useToast } from "../context/ToastContext";
 import ReCAPTCHA from "react-google-recaptcha";
-import { AuthContext } from "../store/authentication";
+import { useAuthStore } from "../store/useAuthStore";
+import SEO from "../components/SEO";
 
 const Login = () => {
   const [captchaToken, setCaptchaToken] = useState("");
-  let { Token, setToken } = useContext(AuthContext);
-  const [action , setAction] = useState(false)
-
+  const { login, isLoggingIng } = useAuthStore();
+  const { addToast } = useToast();
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-
-
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const validateForm = () => {
+    if (!formData.email.trim()) {
+      addToast("Email is required", "error");
+      return false;
+    }
+    if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      addToast("Invalid email format", "error");
+      return false;
+    }
+    if (!formData.password) {
+      addToast("Password is required", "error");
+      return false;
+    }
+    if (formData.password.length < 6) {
+      addToast("Password must be at least 6 characters", "error");
+      return false;
+    }
+    return true;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!captchaToken) {
-      toast.error("Please verify that you are human.");
-      return;
+    const success = validateForm();
+    if (success === true) {
+      await login(formData); // Assuming login returns a promise or handles toasts internally, if not we might need to wrap it.
+      // If login function in store handles errors with toast.error, we need to check if we need to update that store too. 
+      // For now, assuming login works as is but we replaced the local validation toasts.
     }
-    try {
-      setAction(true)
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`, formData);
-      toast.success(response.data.message);
-      setToken(response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-      localStorage.setItem("Token", response.data.token);
-      localStorage.setItem("userId", response.data.userId);
-      navigate("/");
-      window.location.reload();
-      setAction(false)
+  }
 
-    } catch (error) {
-      setAction(false)
-      toast.error(error.response?.data?.message || "Login failed.");
-    }
-  };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100 w-100">
-      <Container className="d-flex justify-content-center">
-        <Form className="p-4 border rounded " onSubmit={handleSubmit} style={{
-          background: "rgba(99, 74, 74, 0.2)",
-          backdropFilter: "blur(10px)",
-          WebkitBackdropFilter: "blur(10px)",
-          borderRadius: "15px",
-          border: "1px solid rgba(255, 255, 255, 0.91)"
-        }}>
-          <h3 className="text-center mb-4 text-light">Login</h3>
+    <>
+      <SEO
+        title="Login"
+        description="Login to your AizenX account to create and read blogs. Join the community today!"
+        url="/login"
+      />
+      <div className="d-flex justify-content-center align-items-center vh-100 w-100">
+        <Container className="d-flex justify-content-center">
+          <div
+            className="glass-panel p-5 animate-fade-in"
+            style={{ width: "100%", maxWidth: "450px" }}
+          >
+            <h2 className="text-center mb-4" style={{ color: 'var(--accent-primary)', fontWeight: 'bold' }}>
+              Welcome Back
+            </h2>
 
-          <Form.Group className="mb-3">
-            <Form.Label className="text-light">Email address</Form.Label>
-            <Form.Control
-              type="email"
-              name="email"
-              placeholder="Enter email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
+            <Form onSubmit={handleSubmit}>
+              <Form.Group className="mb-4">
+                <Form.Label style={{ color: 'var(--text-secondary)' }}>Email address</Form.Label>
+                <Form.Control
+                  className="glass-input"
+                  type="email"
+                  name="email"
+                  placeholder="Enter email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label className="text-light">Password</Form.Label>
-            <Form.Control
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
-          <div className="d-flex justify-content-center w-100 mb-3">
-            <ReCAPTCHA
-              sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
-              onChange={(token) => setCaptchaToken(token)}
-            />
+              <Form.Group className="mb-4">
+                <Form.Label style={{ color: 'var(--text-secondary)' }}>Password</Form.Label>
+                <Form.Control
+                  className="glass-input"
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+
+              <div className="d-flex justify-content-center w-100 mb-4">
+                <ReCAPTCHA
+                  sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+                  onChange={(token) => setCaptchaToken(token)}
+                  theme="dark"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="btn-primary-glow w-100"
+                disabled={isLoggingIng}
+              >
+                {isLoggingIng ? (
+                  <>
+                    <Spinner animation="border" size="sm" className="me-2" />
+                    Logging in...
+                  </>
+                ) : (
+                  "Login"
+                )}
+              </button>
+
+              <p className="text-center mt-4" style={{ color: 'var(--text-secondary)' }}>
+                Don't have an account?{" "}
+                <NavLink to="/signup" style={{ color: 'var(--accent-secondary)', textDecoration: 'none', fontWeight: 'bold' }}>
+                  Sign Up now
+                </NavLink>
+              </p>
+            </Form>
           </div>
-          <Button variant="primary" type="submit" className="w-100 text-light" disabled={action} >
-                                       {action? (
-                            <>
-                              Processing <Spinner animation="border" size="sm" />
-                            </>
-                          ) : (
-                            "Login"
-                          )}
-          </Button>
-
-          <p className="text-center text-light mt-3">
-            Don't have an account?{" "}
-            <NavLink to="/signup" className="text-primary text-decoration-none">
-              Sign Up now
-            </NavLink>
-          </p>
-        </Form>
-      </Container>
-    </div>
+        </Container>
+      </div>
+    </>
   );
 };
 

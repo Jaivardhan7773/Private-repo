@@ -49,3 +49,12 @@
 
 
 
+.sidebar-btn {
+  transition: all 0.3s ease;
+}
+
+.sidebar-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  padding-left: 1.5rem !important;
+  color: #00d4ff !important;
+}

@@ -1,9 +1,10 @@
 const express = require("express");
 const Carousel = require("../models/carousel");
 const  adminMiddleware  = require("../middleware/adminMiddleware") 
+const { authMiddleware, aadminMiddleware } = require("../middleware/useAuthStore");
 const router = express.Router();
 
-router.post("/addCar" ,adminMiddleware  , async (req , res) => {
+router.post("/addCar" ,authMiddleware, aadminMiddleware  , async (req , res) => {
     try {
         const { title, image, description } = req.body;
         if (!title || !image || !description) {
@@ -26,7 +27,7 @@ router.get("/allCars", async (req, res) => {
     }
 });
 
-router.put("/updatecar/:id" ,adminMiddleware  , async (req , res) => {
+router.put("/updatecar/:id" ,authMiddleware, aadminMiddleware  , async (req , res) => {
     try{
         const {title , description , image} = req.body;
         const updatecar = await Carousel.findByIdAndUpdate(req.params.id , {title , description , image}, {new:true});
@@ -40,7 +41,7 @@ router.put("/updatecar/:id" ,adminMiddleware  , async (req , res) => {
     }
 });
 
-router.delete("/deletecar/:id" ,adminMiddleware  , async (req , res) => {
+router.delete("/deletecar/:id" ,authMiddleware, aadminMiddleware  , async (req , res) => {
     try{
         const {title , image , description} = req.body;
         const deletecar = await Carousel.findByIdAndDelete(req.params.id);

@@ -1,97 +1,110 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Container, Card, Row, Col, Pagination } from "react-bootstrap";
-import { toast } from "react-toastify";
+import React, { useEffect } from "react";
+import { Container, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-
-
+import { useHomeStore } from "../store/homeapis/useHomeStore";
+import { Cpu, Calendar } from "lucide-react";
 
 AOS.init();
 
 const Allblogs = () => {
-  const [blogs, setBlogs] = useState([]);
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
+  const { blogs, fetchAllBlogs } = useHomeStore();
 
   useEffect(() => {
-    fetchAllBlogs();
-  }, []);
-
-  const fetchAllBlogs = async () => {
-    try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/allBlogs`);
-      setBlogs(response.data);
-      setIsLoading(false)
-    } catch (error) {
-      toast.error("Failed to fetch blogs.");
-      console.error("Failed to fetch blogs!", error);
+    if (blogs.length === 0) {
+      fetchAllBlogs();
     }
-  };
-
-
+  }, [fetchAllBlogs, blogs.length]);
 
   return (
-    <div className="bg-light">
-      <Container className="mt-4 pt-5">
-        <Row>
-          {blogs.length === 0 ? (
-            [...Array(4)].map((_, index) => (
-              <Col lg={6} key={index} className="mb-4">
-                <Card className="cardbg">
-                  <Skeleton height={400} highlightColor="#444" />
-                  <Card.Body>
-                    <Skeleton height={20} width="60%" highlightColor="#444" />
-                    <Skeleton height={15} count={3} highlightColor="#444" />
-                    <Skeleton height={20} width="50%" highlightColor="#444" />
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))
-          ) : (
-            [...blogs].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0 , 8).map((blog) => (
+    <>
+      <div className="py-5" style={{ background: 'var(--bg-primary)', minHeight: '100vh' }}>
+        <Container>
+          <div className="d-flex align-items-center gap-3 mb-5 border-bottom border-secondary pb-3">
+            <Cpu size={28} className="text-warning" />
+            <h2 className="fw-bold mb-0 text-uppercase" style={{ fontFamily: 'var(--font-main)', letterSpacing: '-1px' }}>
+              Latest Intelligence
+            </h2>
+          </div>
 
-              <Col lg={6} key={blog._id} className="mb-4">
-                <Card className="cardbg"  data-aos="zoom-in-up" onClick={() => {
-                  navigate(`/blog/${blog._id}`);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                  style={{
-                    cursor: "pointer",
-                  }}>
-                  <Card.Img
-                    variant="top"
-                    src={blog.image}
-                    alt={blog.title}
-                    loading="lazy"
-                    style={{
-                      maxHeight: "400px",
-                      minHeight: "400px",
-                      objectFit: "cover",
+          <Row>
+            {blogs.length === 0 ? (
+              [...Array(4)].map((_, index) => (
+                <Col lg={6} key={index} className="mb-4">
+                  <div className="glass-panel h-100">
+                    <Skeleton height={400} baseColor="var(--bg-secondary)" highlightColor="var(--border-color)" style={{ borderRadius: 0 }} />
+                    <div className="p-4">
+                      <Skeleton height={20} width="60%" baseColor="var(--bg-secondary)" highlightColor="var(--border-color)" />
+                      <Skeleton height={15} count={3} baseColor="var(--bg-secondary)" highlightColor="var(--border-color)" />
+                    </div>
+                  </div>
+                </Col>
+              ))
+            ) : (
+              [...blogs].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 8).map((blog) => (
+                <Col lg={6} key={blog._id} className="mb-4">
+                  <div
+                    className="glass-panel h-100 d-flex flex-column"
+                    data-aos="fade-up"
+                    onClick={() => {
+                      navigate(`/blog/${blog.slug}`);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                  />
-                  <Card.Body>
-                    <Card.Text>{blog.tags.join(" · ")}</Card.Text>
-                    <Card.Title>{blog.title}</Card.Title>
-                    <Card.Text>{blog.introduction?.substring(0, 300) || "No intro"}...</Card.Text>
-                    <Card.Text className="d-flex justify-content-between wordbreak">
-                      <span className="text-secondary fw-bold">{blog.author}</span>
-                      <span className="wordbreak">{blog.category}</span>
-                    </Card.Text>
-                    <Card.Text>
-                      {new Date(blog.createdAt).toISOString().split("T")[0]}
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))
-          )}
-        </Row>
-      </Container>
-    </div>
+                    style={{ cursor: "pointer", transition: "transform 0.2s" }}
+                    onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-5px)"}
+                    onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0)"}
+                  >
+                    <div style={{ position: 'relative', height: '300px', overflow: 'hidden', borderBottom: '1px solid var(--border-color)' }}>
+                      <img
+                        src={blog.image}
+                        alt={blog.title}
+                        loading="lazy"
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                      <div style={{
+                        position: 'absolute', top: '10px', left: '10px',
+                        background: 'var(--bg-secondary)',
+                        border: '1px solid var(--border-color)',
+                        padding: '4px 8px',
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '0.75rem',
+                        color: 'var(--accent-primary)'
+                      }}>
+                        {blog.category}
+                      </div>
+                    </div>
+
+                    <div className="p-4 flex-grow-1 d-flex flex-column">
+                      <div className="mb-2 font-monospace text-muted small">
+                        {blog.tags.slice(0, 3).map(tag => `#${tag}`).join(" · ")}
+                      </div>
+                      <h3 className="h4 fw-bold mb-3" style={{ color: 'var(--text-primary)' }}>{blog.title}</h3>
+                      <p className="text-secondary mb-4 flex-grow-1" style={{ fontSize: '0.95rem', lineHeight: '1.6' }}>
+                        {blog.introduction?.substring(0, 150) || "No intro available"}...
+                      </p>
+
+                      <div className="d-flex justify-content-between align-items-center mt-auto pt-3 border-top border-secondary">
+                        <span className="fw-bold text-accent" style={{ fontSize: '0.9rem' }}>
+                          {blog.author}
+                        </span>
+                        <span className="text-muted small d-flex align-items-center gap-1">
+                          <Calendar size={14} />
+                          {new Date(blog.createdAt).toISOString().split("T")[0]}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+              ))
+            )}
+          </Row>
+        </Container>
+      </div>
+    </>
   );
 };
 

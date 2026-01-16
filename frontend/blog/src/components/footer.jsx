@@ -1,170 +1,92 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import axios from "axios";
+import React from "react";
 import { Container, Navbar, Row, Col } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import { toast } from "react-toastify";
-
+import { Github, Twitter, Linkedin, Instagram, ArrowRight } from "lucide-react";
 
 const Footer = () => {
-  const [email, setEmail] = useState("");
-  const [editor, setEditor] = useState(true);
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'));
-
-    if (user?.isEditor) {
-    setEditor(false)
-    } else {
-     setEditor(true)
-    }
-  }, )
-  
-
-  const handleSubmit = async () => {
-
-    if (!email) {
-      toast.error("Please enter your email.");
-      return;
-    }
-
-    try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/addRequest`, { email });
-
-      if (response.status === 201) {
-        toast.success("Request submitted successfully!");
-        setEmail("");
-      } else {
-        toast.error("Something went wrong.");
-      }
-    } catch (error) {
-      console.error("Error submitting request:", error);
-      toast.error(error.response?.data?.message || "Failed to submit request.");
-    }
-  };
-
   return (
-    <footer className="text-light py-4" style={{
-      minHeight: "50vh", backgroundImage: "url('https://i.postimg.cc/fbhwpSMR/wp9393501.jpg')",
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      backgroundRepeat: "no-repeat",
-
+    <footer className="py-5" style={{
+      background: 'var(--bg-secondary)',
+      borderTop: '1px solid var(--border-color)',
+      color: 'var(--text-secondary)'
     }}>
       <Container>
-        <Row>
+        <Row className="g-5">
 
-          <Col md={4} className="mb-3">
+          <Col lg={4}>
             <Navbar.Brand
               href="#"
+              className='d-flex align-items-center gap-2 mb-4'
               style={{
-                fontFamily: "'Tektur', sans-serif",
-                fontOpticalSizing: "auto",
-                fontWeight: 700, // Adjust between 100 - 900
-                fontStyle: "normal",
-                fontVariationSettings: '"wdth" 100',
-                fontSize: "clamp(1.2rem, 2vw, 2rem)"
+                fontFamily: "var(--font-mono)",
+                fontWeight: 700,
+                fontSize: "1.5rem",
+                color: 'var(--text-primary)',
+                letterSpacing: '-1px'
               }}
             >
-              <img src='https://cdn-icons-png.flaticon.com/128/8133/8133820.png' className="navbarlogo" style={{
-                maxHeight: "40px", maxWidth: "40px",
-                position: "relative",
-                left: '5px',
-                bottom: '4px'
-              }} />
-              izen
-              <img src='https://cdn-icons-png.flaticon.com/128/16083/16083469.png' className="navbarlogo" style={{
-                maxHeight: "40px",
-                maxWidth: "30px",
-                position: "relative",
-                right: '5px'
-              }} />
+              <div style={{
+                width: '36px', height: '36px',
+                background: 'var(--text-primary)',
+                color: 'var(--bg-primary)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontWeight: 'bold'
+              }}>
+                AI
+              </div>
+              AIZEN<span style={{ color: 'var(--accent-primary)' }}>X</span>
             </Navbar.Brand>
-            <p>
-              Your go-to platform for creating and managing Your BLOGS. Explore
-              blogs, Stories, and more.
+            <p className="mb-4" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem' }}>
+              >> Your go-to platform for creating and managing blogs.
+              <br />
+              >> Explore stories, culture, and more.
             </p>
-            <div className='d-flex gap-3 justify-content-center'>
-              <a href='#'><img src='https://cdn-icons-png.flaticon.com/128/5968/5968764.png' alt='Facebook' className='img-fluid' style={{ maxHeight: "25px", maxWidth: "25px" }} /></a>
-              <a href='#'><img src='https://cdn-icons-png.flaticon.com/128/2111/2111463.png' alt='Instagram' className='img-fluid' style={{ maxHeight: "25px", maxWidth: "25px" }} /></a>
-              <a href='#'><img src='https://cdn-icons-png.flaticon.com/128/5968/5968852.png' alt='YouTube' className='img-fluid' style={{ maxHeight: "30px", maxWidth: "30px" }} /></a>
-              <a href='#'><img src='https://cdn-icons-png.flaticon.com/128/145/145807.png' alt='LinkedIn' className='img-fluid' style={{ maxHeight: "30px", maxWidth: "30px" }} /></a>
-
+            <div className='d-flex gap-3'>
+              <a href="https://github.com/Jaivardhan7773" target="_blank" className="text-secondary hover-accent"><Github size={20} /></a>
+              <a href="https://www.instagram.com/jaivardhan7773_/#" target="_blank" className="text-secondary hover-accent"><Instagram size={20} /></a>
+              <a href="https://x.com/Jay_Vardhan7773" target="_blank" className="text-secondary hover-accent"><Twitter size={20} /></a>
+              <a href="https://www.linkedin.com/in/jaivardhan7773/" target='_blank' className="text-secondary hover-accent"><Linkedin size={20} /></a>
             </div>
           </Col>
 
 
-          <Col md={4} className="mb-3">
-            <h5>Quick Links</h5>
-            <ul className="list-unstyled">
-              <li><NavLink to="/" className="text-light">Home</NavLink></li>
-              <li><NavLink to="/totalblogs" className="text-light">Blogs</NavLink></li>
-              <li><NavLink to="/user/myblogs" className="text-light">my blogs</NavLink></li>
-              <li><NavLink to="/admin/manage-users" className="text-light">Admin Panel</NavLink></li>
+          <Col lg={4}>
+            <h5 className="text-uppercase fw-bold mb-4" style={{ color: 'var(--text-primary)', letterSpacing: '1px' }}>Quick Navigation</h5>
+            <ul className="list-unstyled d-flex flex-column gap-2" style={{ fontFamily: 'var(--font-mono)' }}>
+              <li><NavLink to="/" className="text-decoration-none text-secondary hover-accent d-flex align-items-center gap-2"><ArrowRight size={14} /> HOME</NavLink></li>
+              <li><NavLink to="/totalblogs" className="text-decoration-none text-secondary hover-accent d-flex align-items-center gap-2"><ArrowRight size={14} /> INTEL</NavLink></li>
+              <li><NavLink to="/user/myblogs" className="text-decoration-none text-secondary hover-accent d-flex align-items-center gap-2"><ArrowRight size={14} /> MY ARCHIVES</NavLink></li>
+              <li><NavLink to="/admin/manage-users" className="text-decoration-none text-secondary hover-accent d-flex align-items-center gap-2"><ArrowRight size={14} /> ADMIN COMMAND</NavLink></li>
             </ul>
           </Col>
 
 
-          <Col md={4} className="mb-3">
-            <h5>Contact Us</h5>
-            <p className="email-text">Email: <a href="mailto:jaivardhansinghrathore17@gmail.com">jaivardhansinghrathore17@gmail.com</a></p>
-            <p>Phone: <a href="tel:+916377469206">+91 6377469206</a></p>
-            <div className="wordbreak">
-              <a href="https://www.instagram.com/jaivardhan7773_/#" target="_blank" className="text-light me-3">Instagram</a>
-              <a href="https://x.com/Jay_Vardhan7773" target="_blank" className="text-light me-3">Twitter</a>
-              <a href="https://www.linkedin.com/in/jaivardhan-singh-rathore-9a0149334" target="_blank" className="text-light">LinkedIn</a>
-            </div>
+          <Col lg={4}>
+            <h5 className="text-uppercase fw-bold mb-4" style={{ color: 'var(--text-primary)', letterSpacing: '1px' }}>Transmission Channels</h5>
+            <p className="mb-2" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem' }}>EMAIL: <a href="mailto:jaivardhansinghrathore17@gmail.com" className="text-accent hover-accent text-decoration-none">jaivardhansinghrathore17@gmail.com</a></p>
+            <p className="mb-4" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem' }}>PORTFOLIO: <a href="https://jaivardhan.vercel.app" target="_blank" className="text-accent hover-accent text-decoration-none">jaivardhan.vercel.app</a></p>
 
-
-            {editor ? (
-              <>
-              
-            <h6 className="pt-5 text-start">Apply for an Editor's Post <br />
-              and write your own blogs and social media news
-            </h6>
-            <div className="d-flex">
-              <input
-                type="email"
-                className="form-control w-50"
-                placeholder="Your email for Request"
-                style={{ borderRadius: "8px" }}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              <button
-                className="btn ms-1 btn-primary"
-                style={{ borderRadius: "8px" }}
-                onClick={handleSubmit}
+            <div className="glass-panel p-3" style={{ border: '1px solid var(--border-color)', background: 'var(--bg-primary)' }}>
+              <h6 className="fw-bold mb-2 text-uppercase small text-white">Join the Editorial Team</h6>
+              <p className="small text-muted mb-3">Submit request to access write permissions.</p>
+              <a
+                href="#apply"
+                className="btn-primary-glow w-100 text-center text-decoration-none d-block small py-2"
               >
-                Submit Request
-              </button>
+                REQUEST ACCESS
+              </a>
             </div>
-              </>
-            ) : (
-              <>
-<>
-<h6 className="pt-5 text-center">congrats you  are a editor <br />
-              so write your own blogs and social media news
-            </h6>
-</>
-              </>
-            )}
-
-
-
           </Col>
         </Row>
-    
+
+        <div className="border-top border-secondary mt-5 pt-4 text-center">
+          <p className="mb-0 small font-monospace text-muted">
+            &copy; {new Date().getFullYear()} AIZENX SYSTEMS. DEVELOPED BY <a href="https://jaivardhan.vercel.app" target="_blank" className="text-accent text-decoration-none">JAIVARDHAN</a>.
+            <br />
+            ALL RIGHTS RESERVED.
+          </p>
+        </div>
       </Container>
-      <hr style={{border: 'none', height: '1px' , backgroundColor:' white', width: '100%'}} />
-
-
-<Row className="mt-3">
-  <Col className="text-center">
-    <p className="mb-0">&copy; {new Date().getFullYear()} AizenX BY Jaivardhan. All Rights Reserved.</p>
-  </Col>
-</Row>
-
     </footer>
   );
 };

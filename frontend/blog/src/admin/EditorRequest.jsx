@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../utills/axios.js";
 import { Table, Container, Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 
@@ -11,11 +11,8 @@ const EditorRequest = () => {
   }, []);
 
   const fetchRequests = async () => {
-    const token  = localStorage.getItem("Token");
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/getrequest` ,{
-        headers : { Authorization : `Bearer ${token}`}
-      });
+      const response = await axiosInstance.get("/getrequest");
       setRequests(response.data);
     } catch (error) {
       toast.error("Failed to fetch requests. Please try again later.");
@@ -23,11 +20,8 @@ const EditorRequest = () => {
   };
 
   const handleDelete = async (requestId) => {
-    const token  = localStorage.getItem("Token");
     try {
-      await axios.delete(`https://grillgblogs.onrender.com/deleteRequest/${requestId}` ,{
-        headers : { Authorization : `Bearer ${token}`}
-      });
+      await axiosInstance.delete(`/deleteRequest/${requestId}`);
       toast.success("Request deleted successfully");
       setRequests((prevRequests) => prevRequests.filter((req) => req._id !== requestId));
     } catch (error) {
