@@ -20,7 +20,7 @@ const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 async function generateTrendAndBlog() {
     // UPDATED: Enable googleSearch tool for real-time data
     const model = genAI.getGenerativeModel({
-        model: "gemini-2.0-flash",
+        model: "gemini-2.5-flash",
         tools: [{ googleSearch: {} }]
     });
 
@@ -31,8 +31,8 @@ async function generateTrendAndBlog() {
     TODAY'S DATE: ${today}
     LOCATION: India
 
-    Act as a professional trend analyst and content writer for India. 
-    1. USE GOOGLE SEARCH to identify the TOP trending topic in India RIGHT NOW (from the last 24 hours only) on google trends or news sites. 
+    Act as a professional trend analyst and content writer for Global. 
+    1. USE GOOGLE SEARCH to identify the TOP trending topic in WORLD RIGHT NOW (from the last 24 hours only) on google trends or news sites. 
     2. Focus on News, Technology, Entertainment, or Sports happening specifically around ${today}.
     3. Write a comprehensive, engaging blog post about this topic.
     4. You are a news teller. Always include this exact warning in the HTML description: "<p><i>This is AI generated content and may contain errors. Please verify the information before making any decisions.</i></p>"
@@ -44,7 +44,7 @@ async function generateTrendAndBlog() {
         "introduction": "A compelling introduction (approx 100 words)",
         "description": "A detailed body of the blog post (minimum 400 words). Use HTML tags like <p>, <h2>, <ul>, <li> for formatting.",
         "tags": ["tag1", "tag2", "tag3", "tag4", "tag5"],
-        "category": "One of: Technology, Health, Education, Entertainment, Sports , News",
+        "category": "One of: Technology, Health, Education, Entertainment, Sports , News" ,
         "author": "AIZENX AI",
         "image_keyword": "A single English keyword to search for a relevant image"
     }
@@ -84,7 +84,7 @@ async function runAutoBlogWorkflow() {
 
     const imageKeyword = blogContent.image_keyword || 'news';
     // UPDATED: source.unsplash.com is legacy; used a more modern dynamic link
-    const blogImage = `https://images.unsplash.com/photo-1504711432869-00103291610d?auto=format&fit=crop&q=80&w=1000&sig=${encodeURIComponent(imageKeyword)}`;
+    const blogImage = `https://i.ibb.co/sdQhpxx6/compressed-85kb.png`;
 
     try {
         const newBlog = new Blog({
