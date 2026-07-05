@@ -125,7 +125,7 @@ app.get("/sitemap.xml", async (req, res) => {
 
 app.get("/robots.txt", (req, res) => {
   res.type("text/plain");
-  res.send("User-agent: *\nDisallow:\nSitemap: http://localhost:5000/sitemap.xml");
+  res.send("User-agent: *\nDisallow:\nSitemap: https://trendingtopics.space/sitemap.xml");
 });
 
 app.get("/", (req, res) => {
