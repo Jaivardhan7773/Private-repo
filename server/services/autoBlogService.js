@@ -35,8 +35,7 @@ async function generateTrendAndBlog() {
     1. USE GOOGLE SEARCH to identify the TOP trending topic in WORLD RIGHT NOW (from the last 24 hours only) on google trends or news sites. 
     2. Focus on News, Technology, Entertainment, or Sports happening specifically around ${today}.
     3. Write a comprehensive, engaging blog post about this topic.
-    4. You are a news teller. Always include this exact warning in the HTML description: "<p><i>This is AI generated content and may contain errors. Please verify the information before making any decisions.</i></p>"
-    5. DO NOT use old topics (like NEET 2024). Verify the topic is from today or yesterday.
+    4. DO NOT use old topics (like NEET 2024). Verify the topic is from today or yesterday.
 
     You MUST output the result as a STRICT JSON object in the following format:
     {
@@ -45,7 +44,7 @@ async function generateTrendAndBlog() {
         "description": "A detailed body of the blog post (minimum 400 words). Use HTML tags like <p>, <h2>, <ul>, <li> for formatting.",
         "tags": ["tag1", "tag2", "tag3", "tag4", "tag5"],
         "category": "One of: Technology, Health, Education, Entertainment, Sports , News" ,
-        "author": "AIZENX AI",
+        "author": "Trending Topics AI",
         "image_keyword": "A single English keyword to search for a relevant image"
     }
     Output ONLY the raw JSON string. Do not include markdown formatting like \`\`\`json.

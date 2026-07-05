@@ -31,8 +31,8 @@ const allowedOrigins = [
   "https://trendingtopics.space",
   "https://aizenx.netlify.app",
   "http://localhost:3000",
-  "https://blogsgram.netlify.app",
-  "http://localhost:8888",
+  "https://trendingtopics.space",
+  "https://www.trendingtopics.space",
   "https://x21fq02c-3000.inc1.devtunnels.ms",
 ];
 

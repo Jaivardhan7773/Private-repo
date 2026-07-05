@@ -17,8 +17,7 @@ router.post("/addBlog", authMiddleware, eeditorMiddleware, async (req, res) => {
     }
     tags = Array.isArray(tags) ? tags : tags.split(",").map(tag => tag.trim());
 
-    const allowedCategories = ["Technology", "Health", "Education", "Entertainment", "Sports"];
-
+    const allowedCategories = ["Technology", "Health", "Education", "Entertainment", "Sports", "News"];
 
     if (!allowedCategories.includes(category)) {
       return res.status(400).json({ message: `Invalid category. Choose from: ${allowedCategories.join(", ")}` });
@@ -70,17 +69,12 @@ router.get("/totalblogs", async (req, res) => {
     const { page = 1, limit = 10, search = "", category = "" } = req.query;
     const filter = {};
     if (search) {
-      const words = search.trim().split(/\s+/); // split on spaces
-      filter.$and = words.map((word) => ({
-        $or: [
-          { title: { $regex: word, $options: "i" } },
-          { description: { $regex: word, $options: "i" } },
-          { tags: { $regex: word, $options: "i" } },
-          { author: { $regex: word, $options: "i" } }
-        ]
-      }));
+      // High-performance Text Index Search instead of full-collection regex scans
+      filter.$text = { $search: search };
     }
-
+    if (category) {
+      filter.category = category;
+    }
 
     const blogs = await Blog.find(filter)
       .sort({ createdAt: -1 }) // newest first
@@ -132,7 +126,7 @@ router.put("/updateBlog/:blogId", authMiddleware, eeditorMiddleware, async (req,
   try {
     const { title, image, description, tags, author, introduction, category } = req.body;
 
-    const allowedCategories = ["Technology", "Health", "Finance", "Education", "Entertainment"];
+    const allowedCategories = ["Technology", "Health", "Education", "Entertainment", "Sports", "News"];
     if (category && !allowedCategories.includes(category)) {
       return res.status(400).json({ message: "Invalid category selected." });
     }

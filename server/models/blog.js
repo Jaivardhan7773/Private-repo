@@ -27,4 +27,14 @@ BlogSchema.pre("validate", function (next) {
     next();
 });
 
+// Performance Indexes for 100k+ Concurrency
+// 1. Text Index for ultra-fast full-text search on /totalblogs
+BlogSchema.index({ title: 'text', description: 'text', tags: 'text', author: 'text' });
+
+// 2. Compound Index for fast retrieval of user-specific blogs sorted by date
+BlogSchema.index({ userId: 1, createdAt: -1 });
+
+// 3. Index for latest blogs retrieval
+BlogSchema.index({ createdAt: -1 });
+
 module.exports = mongoose.model("Blog", BlogSchema);
