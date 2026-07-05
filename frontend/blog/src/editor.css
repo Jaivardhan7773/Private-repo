@@ -1,0 +1,46 @@
+.editor-container {
+    border: 1px solid #ccc;
+    padding: 10px;
+    min-height: 200px;
+    border-radius: 5px;
+  }
+  
+  .editor-input {
+    outline: none;
+    width: 100%;
+    min-height: 150px;
+  }
+  
+  .editor-placeholder {
+    color: gray;
+    position: absolute;
+    pointer-events: none;
+  }
+  
+  .editor-bold {
+    font-weight: bold;
+  }
+  
+  .editor-italic {
+    font-style: italic;
+  }
+  
+  .editor-underline {
+    text-decoration: underline;
+  }
+  
+  .editor-heading-h1 {
+    font-size: 2em;
+    font-weight: bold;
+  }
+  
+  .editor-heading-h2 {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+  
+  .editor-heading-h3 {
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+  

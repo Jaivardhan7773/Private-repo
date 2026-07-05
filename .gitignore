@@ -1,0 +1,6 @@
+frontend/blog/node_modules
+frontend/blog/.env
+server/.env
+server/node_modules
+# Local Netlify folder
+.netlify
