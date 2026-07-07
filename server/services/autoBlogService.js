@@ -83,7 +83,7 @@ async function runAutoBlogWorkflow() {
 
     const imageKeyword = blogContent.image_keyword || 'news';
     // UPDATED: source.unsplash.com is legacy; used a more modern dynamic link
-    const blogImage = `https://i.ibb.co/sdQhpxx6/compressed-85kb.png`;
+    const blogImage = `https://i.ibb.co/0jVXC370/messi.webp`;
 
     try {
         const newBlog = new Blog({
