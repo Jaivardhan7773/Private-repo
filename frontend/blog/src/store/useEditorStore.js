@@ -8,7 +8,7 @@ export const useEditorStore = create((set, get) => ({
     isloading: false,
 
 
-    fetchmyblogs: async () => {
+    fetchmyblogs: async (page = 1, limit = 10, reset = false) => {
         const userId = useAuthStore.getState().authUser?._id;
         if (!userId) {
             toast.error("Login first");
@@ -17,8 +17,13 @@ export const useEditorStore = create((set, get) => ({
         set({ isloading: true })
 
         try {
-            const res = await axiosInstance.get(`/userBlogs/${userId}`);
-            set({ myblogs: res.data });
+            const res = await axiosInstance.get(`/userBlogs/${userId}?page=${page}&limit=${limit}`);
+            if (reset || page === 1) {
+                set({ myblogs: res.data });
+            } else {
+                set({ myblogs: [...(get().myblogs || []), ...res.data] });
+            }
+            return res.data;
         } catch (error) {
             toast.error(error.response?.data?.message || "Failed to fetch blogs");
         } finally {
@@ -55,7 +60,7 @@ export const useEditorStore = create((set, get) => ({
             );
 
             toast.success("Blog posted successfully!");
-            get().fetchmyblogs(); // refresh blogs
+            get().fetchmyblogs(1, 10, true); // reset blogs to top page
         } catch (error) {
             toast.error(error.response?.data?.message || "Failed to post blog.");
         } finally {
@@ -74,7 +79,7 @@ export const useEditorStore = create((set, get) => ({
         try {
             await axiosInstance.put(`/updateBlog/${updatedBlog._id}`, updatedBlog);
             toast.success("Blog updated successfully!");
-            get().fetchmyblogs(); // refresh blogs after update
+            get().fetchmyblogs(1, 10, true); // reset blogs to top page
         } catch (error) {
             toast.error(error.response?.data?.message || "Failed to update blog.");
         } finally {
@@ -88,7 +93,7 @@ export const useEditorStore = create((set, get) => ({
   try {
     await axiosInstance.delete(`/deleteBlog/${blogId}`);
     toast.success("Blog deleted successfully!");
-    get().fetchmyblogs(); // refresh blogs after deletion
+    get().fetchmyblogs(1, 10, true); // reset blogs to top page
   } catch (error) {
     toast.error(error.response?.data?.message || "Failed to delete blog.");
   } finally {

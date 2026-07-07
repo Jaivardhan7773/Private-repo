@@ -33,9 +33,44 @@ const Myblogs = () => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const navigate = useNavigate();
 
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const observer = React.useRef();
+  const limit = 10;
+
   useEffect(() => {
-    fetchmyblogs();
+    setPage(1);
+    setHasMore(true);
+    fetchmyblogs(1, limit, true).then((data) => {
+      if (data && data.length < limit) {
+        setHasMore(false);
+      }
+    });
   }, []);
+
+  const lastBlogRef = React.useCallback(
+    (node) => {
+      if (isloading) return;
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPage((prevPage) => {
+            const nextPage = prevPage + 1;
+            fetchmyblogs(nextPage, limit).then((data) => {
+               if (data && data.length < limit) {
+                 setHasMore(false);
+               }
+            });
+            return nextPage;
+          });
+        }
+      });
+
+      if (node) observer.current.observe(node);
+    },
+    [isloading, hasMore]
+  );
 
   const handleChange = (e) => {
     setBlogData({ ...blogData, [e.target.name]: e.target.value });
@@ -207,8 +242,8 @@ const Myblogs = () => {
             </Row>
           ) : myblogs?.length > 0 ? (
             <Row>
-              {myblogs.map((blog) => (
-                <Col md={4} sm={6} xs={12} key={blog._id} className="mb-4">
+              {myblogs.map((blog, index) => (
+                <Col md={4} sm={6} xs={12} key={blog._id} className="mb-4" ref={index === myblogs.length - 1 ? lastBlogRef : null}>
                   <div
                     className="glass-panel h-100 d-flex flex-column overflow-hidden card-hover-effect"
                     data-aos="fade-up"

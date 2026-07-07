@@ -47,7 +47,11 @@ router.post("/upload/blogImage", upload.single("image"), async (req, res) => {
 
 router.get("/userBlogs/:userId", authMiddleware, eeditorMiddleware, async (req, res) => {
   try {
-    const blogs = await Blog.find({ userId: req.params.userId }).sort({ createdAt: -1 });
+    const { page = 1, limit = 10 } = req.query;
+    const blogs = await Blog.find({ userId: req.params.userId })
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * Number(limit))
+      .limit(Number(limit));
     res.status(200).json(blogs);
   } catch (error) {
     res.status(500).json({ message: "Server error what the hell" });
