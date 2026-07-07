@@ -8,6 +8,7 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const AUTO_BLOG_ENABLED = process.env.AUTO_BLOG_ENABLED === 'true';
 const INTERVAL_HOURS = process.env.AUTO_BLOG_INTERVAL_HOURS || 2;
 const USER_ID = process.env.AUTO_BLOG_USER_ID;
+const AI_BLOG_COVER_IMAGE = process.env.AI_BLOG_COVER_IMAGE;
 
 if (!GEMINI_API_KEY) {
     console.error("ERROR: GEMINI_API_KEY is missing in environment variables!");
@@ -82,8 +83,8 @@ async function runAutoBlogWorkflow() {
     console.log(`AutoBlog Service: generated topic: "${blogContent.title}"`);
 
     const imageKeyword = blogContent.image_keyword || 'news';
-    // UPDATED: source.unsplash.com is legacy; used a more modern dynamic link
-    const blogImage = `https://i.ibb.co/0jVXC370/messi.webp`;
+    // Use env variable if provided, otherwise fallback to the default Messi image
+    const blogImage = AI_BLOG_COVER_IMAGE || `https://i.ibb.co/0jVXC370/messi.webp`;
 
     try {
         const newBlog = new Blog({
