@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { Mail, Globe, CheckCircle2, XCircle } from "lucide-react";
 
 export default function ContactForm() {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
@@ -52,7 +53,7 @@ export default function ContactForm() {
 
         {/* Header */}
         <div className="tool-page__header">
-          <span className="tool-page__icon">✉️</span>
+          <span className="tool-page__icon"><Mail size={48} className="text-accent-violet" /></span>
           <h1 className="tool-page__title">Get in Touch</h1>
           <p className="tool-page__desc">
             Have a question, suggestion, or found a bug? We&apos;d love to hear from you.
@@ -60,14 +61,14 @@ export default function ContactForm() {
           </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px", marginBottom: "32px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "24px", marginBottom: "32px" }}>
           {/* Info Cards */}
           {[
-            { icon: "📧", title: "Email Us", desc: "aizenxblogs@gmail.com", sub: "We reply within 48 hours" },
-            { icon: "🌐", title: "Main Blog", desc: "trendingtopics.space", sub: "Visit our blog for articles" },
+            { icon: <Mail size={24} className="text-accent-blue" />, title: "Email Us", desc: "aizenxblogs@gmail.com", sub: "We reply within 48 hours" },
+            { icon: <Globe size={24} className="text-accent-violet" />, title: "Main Blog", desc: "trendingtopics.space", sub: "Visit our blog for articles" },
           ].map((c) => (
             <div key={c.title} className="glass-card" style={{ padding: "20px", display: "flex", gap: "16px", alignItems: "flex-start" }}>
-              <span style={{ fontSize: "1.75rem" }}>{c.icon}</span>
+              <span style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "12px", background: "rgba(124,58,237,0.1)", borderRadius: "12px" }}>{c.icon}</span>
               <div>
                 <div style={{ fontWeight: 700, fontSize: "0.9375rem", marginBottom: "4px" }}>{c.title}</div>
                 <div style={{ color: "var(--accent-violet)", fontWeight: 600, fontSize: "0.875rem" }}>{c.desc}</div>
@@ -79,13 +80,13 @@ export default function ContactForm() {
 
         {/* Form */}
         <div className="glass-card" style={{ padding: "32px" }}>
-          <h2 style={{ fontWeight: 800, fontSize: "1.25rem", marginBottom: "24px", letterSpacing: "-0.02em" }}>
+          <h2 style={{ fontWeight: 800, fontSize: "1.25rem", margin: "0 0 24px", letterSpacing: "-0.02em" }}>
             Send a Message
           </h2>
 
           {status === "success" ? (
-            <div className="alert alert--success animate-scaleIn">
-              <span style={{ fontSize: "1.25rem" }}>✅</span>
+            <div className="alert alert--success animate-scaleIn" style={{ display: "flex", alignItems: "flex-start", gap: "16px" }}>
+              <CheckCircle2 size={32} className="text-accent-green" style={{ flexShrink: 0 }} />
               <div>
                 <strong>Message sent!</strong>
                 <p style={{ margin: "4px 0 0", fontSize: "0.875rem" }}>
@@ -96,7 +97,7 @@ export default function ContactForm() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} noValidate>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "16px" }}>
                 <div className="form-group">
                   <label htmlFor="contact-name" className="form-label">Full Name *</label>
                   <input
@@ -137,12 +138,12 @@ export default function ContactForm() {
                   onChange={handleChange}
                 >
                   <option value="">Select a topic...</option>
-                  <option value="Bug Report">🐛 Bug Report</option>
-                  <option value="Feature Request">💡 Feature Request</option>
-                  <option value="Tool Suggestion">🔧 Tool Suggestion</option>
-                  <option value="Partnership">🤝 Partnership</option>
-                  <option value="DMCA / Copyright">⚠️ DMCA / Copyright</option>
-                  <option value="Other">💬 Other</option>
+                  <option value="Bug Report">Bug Report</option>
+                  <option value="Feature Request">Feature Request</option>
+                  <option value="Tool Suggestion">Tool Suggestion</option>
+                  <option value="Partnership">Partnership</option>
+                  <option value="DMCA / Copyright">DMCA / Copyright</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
 
@@ -164,8 +165,8 @@ export default function ContactForm() {
               </div>
 
               {status === "error" && (
-                <div className="alert alert--error" style={{ marginBottom: "16px" }}>
-                  <span>❌</span>
+                <div className="alert alert--error" style={{ marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
+                  <XCircle size={18} />
                   <span>{errorMsg}</span>
                 </div>
               )}
@@ -175,11 +176,12 @@ export default function ContactForm() {
                 className="btn btn--primary btn--lg w-full"
                 disabled={status === "loading"}
                 id="contact-submit"
+                style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "8px" }}
               >
                 {status === "loading" ? (
                   <><span className="spinner"></span> Sending...</>
                 ) : (
-                  <>Send Message ✉️</>
+                  <>Send Message <Mail size={18} /></>
                 )}
               </button>
 
