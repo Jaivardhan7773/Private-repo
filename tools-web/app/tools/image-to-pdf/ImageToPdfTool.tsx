@@ -37,7 +37,7 @@ function SortableImageItem({ item, removeFile }: { item: SortableFile, removeFil
   };
 
   return (
-    <div ref={setNodeRef} style={style} className="glass-card--light" style={{ ...style, padding: "8px 12px", display: "flex", justifyContent: "space-between", alignItems: "center", borderRadius: "8px", background: "rgba(255,255,255,0.6)" }}>
+    <div ref={setNodeRef} className="glass-card--light" style={{ ...style, padding: "8px 12px", display: "flex", justifyContent: "space-between", alignItems: "center", borderRadius: "8px", background: "rgba(255,255,255,0.6)" }}>
       <div style={{ display: "flex", alignItems: "center", gap: "12px", overflow: "hidden", flex: 1 }}>
         <button {...attributes} {...listeners} style={{ background: "transparent", border: "none", cursor: "grab", color: "var(--text-muted)", padding: "4px" }}>
           <GripVertical size={16} />
