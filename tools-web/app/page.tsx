@@ -138,9 +138,9 @@ export default function HomePage() {
             <a href="#tools" className="btn btn--primary" style={{ padding: "14px 28px", fontSize: "1.1rem" }}>
               Explore Tools
             </a>
-            <Link href="/about" className="btn btn--glass" style={{ padding: "14px 28px", fontSize: "1.1rem" }}>
+            <a href="/about" className="btn btn--glass" style={{ padding: "14px 28px", fontSize: "1.1rem" }}>
               How it Works
-            </Link>
+            </a>
           </div>
         </div>
       </section>
