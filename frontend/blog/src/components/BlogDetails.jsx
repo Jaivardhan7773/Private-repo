@@ -8,6 +8,7 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import SEO from "./SEO";
 import { ArrowLeft, User, Calendar, Tag } from "lucide-react";
+import AdSense from "./AdSense";
 
 const BlogDetails = () => {
 
@@ -91,12 +92,18 @@ const BlogDetails = () => {
                     </p>
                   </div>
 
+                  {/* Top AdSense Banner */}
+                  <AdSense />
+
                   {/* Main Content - No Glass Panel, just text on background */}
                   <div
                     className="blog-content"
                     style={{ color: 'var(--text-primary)', lineHeight: '1.9', fontSize: '1.1rem' }}
                     dangerouslySetInnerHTML={{ __html: blog.description }}
                   />
+
+                  {/* Bottom AdSense Banner */}
+                  <AdSense />
 
                   {/* Tags */}
                   <div className="mt-5 pt-4 border-top border-secondary">
