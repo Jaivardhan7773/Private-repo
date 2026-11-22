@@ -15,26 +15,30 @@ const Footer = () => {
 
           <Col lg={4}>
             <Navbar.Brand
-              href="#"
+              as={NavLink}
+              to="/"
               className='d-flex align-items-center gap-2 mb-4'
               style={{
                 fontFamily: "var(--font-mono)",
                 fontWeight: 700,
-                fontSize: "1.5rem",
+                fontSize: "1.3rem",
                 color: 'var(--text-primary)',
-                letterSpacing: '-1px'
+                letterSpacing: '-0.5px',
+                textDecoration: 'none'
               }}
             >
               <div style={{
-                width: '36px', height: '36px',
-                background: 'var(--text-primary)',
-                color: 'var(--bg-primary)',
+                width: '32px', height: '32px',
+                background: 'var(--accent-primary)',
+                color: '#000',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontWeight: 'bold'
+                fontWeight: '800',
+                fontSize: '0.85rem'
               }}>
-                TT
+                AX
               </div>
-              Trending<span style={{ color: 'var(--accent-primary)' }}>Topics</span>
+              Aizen<span style={{ color: 'var(--accent-primary)' }}>X</span>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', fontWeight: 400 }}>// INTEL</span>
             </Navbar.Brand>
             <p className="mb-4" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem' }}>
               &gt;&gt; Your go-to platform for creating and managing blogs.
@@ -98,7 +102,7 @@ const Footer = () => {
 
         <div className="border-top border-secondary mt-5 pt-4 text-center">
           <p className="mb-0 small font-monospace text-muted">
-            &copy; {new Date().getFullYear()} Trending Topics SYSTEMS. DEVELOPED BY <a href="https://jaivardhan.vercel.app" target="_blank" className="text-accent text-decoration-none">JAIVARDHAN</a>.
+            &copy; {new Date().getFullYear()} AIZENX INTELLIGENCE SYSTEMS. ARCHITECTED BY <NavLink to="/portfolio" className="text-accent text-decoration-none">JAIVARDHAN SINGH</NavLink>.
             <br />
             ALL RIGHTS RESERVED.
           </p>

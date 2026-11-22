@@ -135,7 +135,7 @@ const UserProfile = () => {
             <h1 className="fw-bold display-5" style={{ fontFamily: 'var(--font-main)', color: 'var(--text-primary)' }}>
               USER <span className="text-accent">DASHBOARD</span>
             </h1>
-            <p className="text-secondary font-monospace small">>> IDENTITY VERIFICATION & DATA MANAGEMENT</p>
+            <p className="text-secondary font-monospace small">&gt;&gt; IDENTITY VERIFICATION &amp; DATA MANAGEMENT</p>
           </div>
 
           <Row className="justify-content-center">

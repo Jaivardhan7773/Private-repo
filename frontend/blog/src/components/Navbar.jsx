@@ -88,26 +88,30 @@ const Navbarog = () => {
       >
         <Container fluid>
           <Navbar.Brand
-            href="#"
+            as={NavLink}
+            to="/"
             className='d-flex align-items-center gap-2'
             style={{
               fontFamily: "var(--font-mono)",
               fontWeight: 700,
-              fontSize: "1.2rem",
+              fontSize: "1.15rem",
               color: 'var(--text-primary)',
-              letterSpacing: '-1px'
+              letterSpacing: '-0.5px',
+              textDecoration: 'none'
             }}
           >
             <div style={{
-              width: '32px', height: '32px',
-              background: 'var(--text-primary)',
-              color: 'var(--bg-primary)',
+              width: '30px', height: '30px',
+              background: 'var(--accent-primary)',
+              color: '#000',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontWeight: 'bold'
+              fontWeight: '800',
+              fontSize: '0.8rem'
             }}>
-              TT
+              AX
             </div>
-            Trending<span style={{ color: 'var(--accent-primary)' }}>Topics</span>
+            Aizen<span style={{ color: 'var(--accent-primary)' }}>X</span>
+            <span style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)', fontWeight: 400 }}>// INTEL</span>
           </Navbar.Brand>
 
           <Navbar.Toggle aria-controls="navbarScroll" style={{ borderColor: 'var(--border-color)' }}>

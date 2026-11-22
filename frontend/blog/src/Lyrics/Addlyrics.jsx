@@ -74,7 +74,7 @@ const Addlyrics = () => {
                             LYRICS <span style={{ color: 'var(--accent-primary)' }}>PROTOCOL</span>
                         </h1>
                         <p className="text-secondary font-monospace small mb-5">
-                            >> SUBMIT AND ARCHIVE SONG DATA
+                            &gt;&gt; SUBMIT AND ARCHIVE SONG DATA
                         </p>
                     </div>
 
@@ -190,7 +190,7 @@ const Addlyrics = () => {
                         </Form>
                     </div>
 
-                    <h4 className="text-center mb-4 text-secondary font-monospace">>> ARCHIVED ENTRIES</h4>
+                    <h4 className="text-center mb-4 text-secondary font-monospace">&gt;&gt; ARCHIVED ENTRIES</h4>
 
                     <Row>
                         {lyricsList.map((song, index) => (

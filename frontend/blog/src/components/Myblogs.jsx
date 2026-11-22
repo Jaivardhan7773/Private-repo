@@ -124,7 +124,7 @@ const Myblogs = () => {
               OPERATIONAL <span style={{ color: 'var(--accent-primary)' }}>ARCHIVES</span>
             </h1>
             <p className="text-secondary font-monospace small mb-4">
-                >> MANAGE YOUR INTELLIGENCE DATA
+                &gt;&gt; MANAGE YOUR INTELLIGENCE DATA
             </p>
 
             <button

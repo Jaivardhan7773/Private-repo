@@ -38,9 +38,9 @@ const Getintouch = () => {
                                     TRANSMIT <span style={{ color: 'var(--accent-primary)' }}>DATA</span>
                                 </h1>
                                 <p className="text-secondary mx-auto col-md-10" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem' }}>
-                                    >> Share your thoughts about the Hip Hop Scene.
+                                    &gt;&gt; Share your thoughts about the Platform.
                                     <br />
-                                    >> RSVP for upcoming events.
+                                    &gt;&gt; Inquire for collaboration &amp; development.
                                 </p>
                             </div>
 

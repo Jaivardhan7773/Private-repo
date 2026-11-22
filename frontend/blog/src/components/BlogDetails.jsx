@@ -86,10 +86,37 @@ const BlogDetails = () => {
               <div className="row">
                 <div className="col-lg-8 mx-auto">
                   {/* Introduction Block */}
-                  <div className="p-4 mb-5" style={{ background: 'var(--bg-secondary)', borderLeft: '4px solid var(--accent-primary)' }}>
+                  <div className="p-4 mb-4" style={{ background: 'var(--bg-secondary)', borderLeft: '4px solid var(--accent-primary)' }}>
                     <p className="lead mb-0 text-secondary italic">
                       {blog.introduction}
                     </p>
+                  </div>
+
+                  {/* Autonomous Agentic Pipeline Verification Box */}
+                  <div
+                    className="p-3 mb-5 d-flex align-items-center gap-3"
+                    style={{
+                      background: 'rgba(245, 158, 11, 0.05)',
+                      border: '1px solid rgba(245, 158, 11, 0.25)',
+                      fontFamily: 'var(--font-mono)',
+                    }}
+                  >
+                    <div style={{ flexShrink: 0 }}>
+                      <span style={{
+                        width: '8px', height: '8px',
+                        borderRadius: '50%', background: 'var(--accent-primary)',
+                        display: 'inline-block',
+                        boxShadow: '0 0 6px var(--accent-primary)'
+                      }} />
+                    </div>
+                    <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
+                      <strong style={{ color: 'var(--accent-primary)', textTransform: 'uppercase' }}>
+                        Autonomous Agentic Publication
+                      </strong>
+                      <br />
+                      Sourced live via Google Trends, synthesized through Gemini 2.5 Flash with search grounding, and routed to Cloudinary CDN.
+                      Engineered by <a href="/portfolio" style={{ color: 'var(--text-primary)', textDecoration: 'underline' }}>Jaivardhan Singh</a>.
+                    </div>
                   </div>
 
                   {/* Top AdSense Banner */}

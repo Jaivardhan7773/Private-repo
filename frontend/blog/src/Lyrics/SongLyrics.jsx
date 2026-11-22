@@ -37,7 +37,7 @@ const SongLyrics = () => {
             SONG <span style={{ color: 'var(--accent-primary)' }}>LYRICS</span>
           </h1>
           <p className="text-secondary font-monospace lead mb-4">
-                >> DISCOVER, ANALYZE, AND EXPLORE
+                &gt;&gt; DISCOVER, ANALYZE, AND EXPLORE
           </p>
           <div className="d-flex justify-content-center gap-3">
             <button className="btn-primary-glow px-4 py-2">EXPLORE DATABASE</button>
