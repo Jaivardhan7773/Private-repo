@@ -32,48 +32,66 @@ const EXPERIENCE = [
   {
     role: 'Lead Full Stack & AI Engineer',
     company: 'Aigiglab',
-    period: 'Current',
-    type: 'Full-time',
+    period: 'Nov 2025 – Present',
+    type: 'Full-time / Remote',
     points: [
-      'Leading development of production AI-powered SaaS products',
-      'Architecting agentic workflows using Gemini 2.5 Flash + MCP servers',
-      'Built InstaForm AI — intelligent form generation platform',
-      'Developed Remotion AI for automated video generation pipelines',
+      'Promoted rapidly from internship to lead engineer, serving as sole architect and deployment manager for 15+ SaaS products.',
+      'AI Infrastructure & Agentic UI: architected multi-modal AI engine orchestrating Gemini, Claude, and open-source models with ElevenLabs and Remotion; developed resilient Telegram-based MCP server with strict Zod schemas.',
+      'Enterprise SaaS Architecture: engineered high-concurrency Node.js/MongoDB backend for 15+ SaaS products, custom visual workflow builder, and credit-consumption billing engine for API monetization.',
+      'Product Engineering: built InstaForm AI (AI form builder with Razorpay e-commerce integrations and natural language prompt-to-form schema generation).',
+      'Distributed Data Pipelines: designed hyper-local grid-search lead scraper and automated multi-channel delivery infrastructure (email/WhatsApp) with real-time socket tracking.',
+      'DevOps & Infrastructure: managed end-to-end CI/CD pipelines, reverse proxies, and production deployments across company VPS infrastructure using Coolify.',
+      'E-Commerce & UI/UX: overhauled Next.js e-commerce platform by resolving critical pricing logic, international shipping (FedEx, Chilexpress), and executing full UI/UX redesigns using Stitch.',
+    ],
+  },
+  {
+    role: 'Full Stack Engineer Intern',
+    company: 'Aigiglab',
+    period: 'Oct 2025 – Nov 2025',
+    type: 'Internship / Remote',
+    points: [
+      'Built and rigorously load-tested internal finance APIs and a confidential data-transfer tool to synchronize sensitive client information across isolated SAP ecosystems.',
+    ],
+  },
+  {
+    role: 'MERN Stack Developer Intern',
+    company: 'Excellence Technologies',
+    period: 'Nov 2024 – Apr 2025',
+    type: 'Internship / Mohali',
+    points: [
+      'Developed responsive React interfaces and secure Express.js APIs for client-facing web applications.',
+      'Collaborated with senior engineering teams to optimize database query performance and troubleshoot deployment bugs.',
     ],
   },
 ];
 
 const PROJECTS = [
   {
-    title: 'TrendPulse AI (This Platform)',
-    desc: 'Autonomous AI blog platform that scrapes Google Trends live, picks the top trending topic by search volume, generates a 500+ word journalist-style article using Gemini 2.5 Flash, fetches a relevant cover image, uploads to Cloudinary — all on a 2-hour cron. Zero human input.',
-    stack: ['React', 'Node.js', 'Gemini API', 'Google Trends', 'MongoDB', 'Cloudinary'],
+    title: 'AizenX / Trending Topics (This Platform)',
+    desc: 'Autonomous AI publication and systems engineering demonstration. Scrapes Google Trends live, filters top breakout queries by search volume, verifies real-time facts via Google Search Grounding with Gemini 2.5 Flash, uploads multi-tier cover images to Cloudinary, and serves feeds under 50ms with MongoDB compound indexes.',
+    stack: ['React', 'Node.js', 'Express', 'Gemini 2.5 Flash', 'Google Trends', 'MongoDB', 'Cloudinary'],
     link: 'https://trendingtopics.space',
     highlight: true,
   },
   {
-    title: 'InstaForm AI',
-    desc: 'AI-powered dynamic form builder. Users describe their form in plain English; the system generates fully functional, styled forms with validation in seconds.',
-    stack: ['React', 'Gemini API', 'Node.js', 'MongoDB'],
+    title: 'SpeedTalk (Real-time Chat App)',
+    desc: 'Low-latency instant messaging application developed using React, Node.js, and Socket.io. Features efficient global state management with Zustand, authenticated and secured routes using JWT, and real-time socket message delivery.',
+    stack: ['React', 'Node.js', 'Socket.io', 'Zustand', 'JWT', 'MongoDB'],
     link: null,
   },
   {
-    title: 'Telegram MCP Server',
-    desc: 'Custom MCP (Model Context Protocol) server enabling Claude and Gemini agents to send, read, and manage Telegram messages programmatically via tool calls.',
-    stack: ['Node.js', 'MCP Protocol', 'Telegram Bot API', 'TypeScript'],
-    link: null,
-  },
-  {
-    title: 'SpeedTalk',
-    desc: 'Real-time messaging application with sub-100ms latency, JWT auth, and persistent message history.',
-    stack: ['React', 'Node.js', 'WebSockets', 'MongoDB', 'JWT'],
+    title: 'EventsHub Platform',
+    desc: 'Comprehensive college events management portal built with role-based access control (Admin, Organiser, Student), dynamic QR pass generation, event registration workflows, and automated attendance-marking APIs.',
+    stack: ['React', 'Node.js', 'Express', 'MongoDB', 'QR Engine', 'Role-Based Auth'],
     link: null,
   },
 ];
 
 const CERTS = [
-  'Anthropic Claude AI Developer Certification',
-  'Full Stack Web Development — MERN Stack',
+  'Claude Code in Action | Anthropic',
+  'Building with the Claude API | Anthropic',
+  'Model Context Protocol (MCP) | Anthropic',
+  'Agent Skills | Anthropic',
 ];
 
 // ─── Sub-components ────────────────────────────────────────────────────
@@ -420,9 +438,9 @@ const Portfolio = () => {
         {/* ── PROJECTS ──────────────────────────────────────────────── */}
         <div style={{ borderBottom: '1px solid var(--border-color)', padding: '64px 0' }}>
           <Container>
-            <SectionLabel>Work I've shipped</SectionLabel>
+            <SectionLabel>Personal & Notable Projects</SectionLabel>
             <h2 style={{ fontFamily: 'var(--font-main)', fontWeight: 800, fontSize: '1.8rem', letterSpacing: '-1px', marginBottom: '40px', color: 'var(--text-primary)' }}>
-              PROJECTS
+              NOTABLE PROJECTS
             </h2>
 
             <Row className="g-4">
@@ -482,30 +500,78 @@ const Portfolio = () => {
           </Container>
         </div>
 
-        {/* ── CERTIFICATIONS ────────────────────────────────────────── */}
+        {/* ── CERTIFICATIONS & EDUCATION ──────────────────────────── */}
         <div style={{ borderBottom: '1px solid var(--border-color)', padding: '64px 0', background: 'var(--bg-secondary)' }}>
           <Container>
-            <SectionLabel>Credentials</SectionLabel>
-            <h2 style={{ fontFamily: 'var(--font-main)', fontWeight: 800, fontSize: '1.8rem', letterSpacing: '-1px', marginBottom: '32px', color: 'var(--text-primary)' }}>
-              CERTIFICATIONS
-            </h2>
-            <div className="d-flex flex-column gap-3">
-              {CERTS.map((cert, i) => (
-                <motion.div key={i} custom={i} initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>
+            <Row className="g-5">
+              <Col lg={6}>
+                <SectionLabel>Credentials</SectionLabel>
+                <h2 style={{ fontFamily: 'var(--font-main)', fontWeight: 800, fontSize: '1.8rem', letterSpacing: '-1px', marginBottom: '32px', color: 'var(--text-primary)' }}>
+                  CERTIFICATIONS
+                </h2>
+                <div className="d-flex flex-column gap-3">
+                  {CERTS.map((cert, i) => (
+                    <motion.div key={i} custom={i} initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>
+                      <div style={{
+                        display: 'flex', alignItems: 'center', gap: '16px',
+                        padding: '16px 20px',
+                        background: 'var(--bg-primary)',
+                        border: '1px solid var(--border-color)',
+                      }}>
+                        <Award size={18} style={{ color: 'var(--accent-primary)', flexShrink: 0 }} />
+                        <span style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-mono)', fontSize: '0.9rem' }}>
+                          {cert}
+                        </span>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </Col>
+
+              <Col lg={6}>
+                <SectionLabel>Academic Background</SectionLabel>
+                <h2 style={{ fontFamily: 'var(--font-main)', fontWeight: 800, fontSize: '1.8rem', letterSpacing: '-1px', marginBottom: '32px', color: 'var(--text-primary)' }}>
+                  EDUCATION
+                </h2>
+                <div className="d-flex flex-column gap-3">
                   <div style={{
-                    display: 'flex', alignItems: 'center', gap: '16px',
-                    padding: '16px 20px',
+                    padding: '20px',
                     background: 'var(--bg-primary)',
                     border: '1px solid var(--border-color)',
                   }}>
-                    <Award size={18} style={{ color: 'var(--accent-primary)', flexShrink: 0 }} />
-                    <span style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-mono)', fontSize: '0.9rem' }}>
-                      {cert}
-                    </span>
+                    <div className="d-flex justify-content-between align-items-center mb-1">
+                      <h5 style={{ fontFamily: 'var(--font-main)', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
+                        Bachelor of Science
+                      </h5>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                        2021 – 2024
+                      </span>
+                    </div>
+                    <div style={{ color: 'var(--accent-primary)', fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}>
+                      Maharshi Dayanand Saraswati University
+                    </div>
                   </div>
-                </motion.div>
-              ))}
-            </div>
+
+                  <div style={{
+                    padding: '20px',
+                    background: 'var(--bg-primary)',
+                    border: '1px solid var(--border-color)',
+                  }}>
+                    <div className="d-flex justify-content-between align-items-center mb-1">
+                      <h5 style={{ fontFamily: 'var(--font-main)', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
+                        Senior Secondary Education
+                      </h5>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                        2020 – 2021
+                      </span>
+                    </div>
+                    <div style={{ color: 'var(--accent-primary)', fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}>
+                      B.R. Mirdha Sr. Sec. School, Maulasar
+                    </div>
+                  </div>
+                </div>
+              </Col>
+            </Row>
           </Container>
         </div>
 
