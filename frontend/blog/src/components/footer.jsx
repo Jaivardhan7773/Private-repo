@@ -37,9 +37,9 @@ const Footer = () => {
               Trending<span style={{ color: 'var(--accent-primary)' }}>Topics</span>
             </Navbar.Brand>
             <p className="mb-4" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem' }}>
-              >> Your go-to platform for creating and managing blogs.
+              &gt;&gt; Your go-to platform for creating and managing blogs.
               <br />
-              >> Explore stories, culture, and more.
+              &gt;&gt; Explore stories, culture, and more.
             </p>
             <div className='d-flex gap-3'>
               <a href="https://github.com/Jaivardhan7773" target="_blank" className="text-secondary hover-accent"><Github size={20} /></a>
@@ -57,6 +57,7 @@ const Footer = () => {
               <li><NavLink to="/totalblogs" className="text-decoration-none text-secondary hover-accent d-flex align-items-center gap-2"><ArrowRight size={14} /> INTEL</NavLink></li>
               <li><NavLink to="/user/myblogs" className="text-decoration-none text-secondary hover-accent d-flex align-items-center gap-2"><ArrowRight size={14} /> MY ARCHIVES</NavLink></li>
               <li><NavLink to="/admin/manage-users" className="text-decoration-none text-secondary hover-accent d-flex align-items-center gap-2"><ArrowRight size={14} /> ADMIN COMMAND</NavLink></li>
+              <li><NavLink to="/portfolio" className="text-decoration-none text-secondary hover-accent d-flex align-items-center gap-2"><ArrowRight size={14} /> PORTFOLIO</NavLink></li>
             </ul>
 
             <h5 className="text-uppercase fw-bold mb-3 mt-4" style={{ color: 'var(--text-primary)', letterSpacing: '1px' }}>Legal</h5>
@@ -71,7 +72,16 @@ const Footer = () => {
           <Col lg={4}>
             <h5 className="text-uppercase fw-bold mb-4" style={{ color: 'var(--text-primary)', letterSpacing: '1px' }}>Transmission Channels</h5>
             <p className="mb-2" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem' }}>EMAIL: <a href="mailto:jaivardhansinghrathore17@gmail.com" className="text-accent hover-accent text-decoration-none">jaivardhansinghrathore17@gmail.com</a></p>
-            <p className="mb-4" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem' }}>PORTFOLIO: <a href="https://jaivardhan.vercel.app" target="_blank" className="text-accent hover-accent text-decoration-none">jaivardhan.vercel.app</a></p>
+            <p className="mb-4" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem' }}>PORTFOLIO: <a href="/portfolio" className="text-accent hover-accent text-decoration-none">trendingtopics.space/portfolio</a></p>
+
+            <a
+              href="/jaivardhan-singh-resume.pdf"
+              download="Jaivardhan_Singh_Resume.pdf"
+              className="btn-primary-glow w-100 text-center text-decoration-none d-block small py-2 mb-3"
+              style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+            >
+              ↓ DOWNLOAD CV
+            </a>
 
             <div className="glass-panel p-3" style={{ border: '1px solid var(--border-color)', background: 'var(--bg-primary)' }}>
               <h6 className="fw-bold mb-2 text-uppercase small text-white">Join the Editorial Team</h6>

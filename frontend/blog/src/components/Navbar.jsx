@@ -78,7 +78,7 @@ const Navbarog = () => {
         textTransform: 'uppercase',
         letterSpacing: '2px'
       }}>
-        System Status: Operational // Write Loud, Read Proud
+        System Status: Operational // Built by Jaivardhan Singh — AI & Full Stack Engineer
       </div>
 
       <Navbar expand="lg" expanded={expanded}
@@ -123,6 +123,7 @@ const Navbarog = () => {
                 { path: '/admin/manage-users', label: 'Admin', show: authUser?.isAdmin },
                 { path: '/video', label: 'Lyrics', show: true },
                 { path: '/aboutus', label: 'About', show: true },
+                { path: '/portfolio', label: 'Portfolio', show: true },
               ].filter(link => link.show).map((link) => (
                 <NavLink
                   key={link.path}

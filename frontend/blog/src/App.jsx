@@ -20,6 +20,7 @@ import PrivacyPolicy from "./components/PrivacyPolicy";
 import TermsOfService from "./components/TermsOfService";
 import ContactUs from "./components/ContactUs";
 import Addlyrics from "./Lyrics/Addlyrics";
+import Portfolio from "./components/Portfolio";
 import { Navigate } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
 import Layout from "./admin/Layout";
@@ -96,6 +97,7 @@ function App() {
           <Route path="/video" element={<SongLyrics />} />
           <Route path="/soon" element={<ComingSoon />} />
           <Route path="/Addlyrics" element={<Addlyrics />} />
+          <Route path="/portfolio" element={<Portfolio />} />
           <Route path="*" element={<PageNotFound />} />
           <Route path="/sports" element={<CommentaryViewer />} />
           <Route path="/embedd" element={<Embeded />} />
