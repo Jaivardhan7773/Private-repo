@@ -1,122 +1,185 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+/**
+ * autoBlogService.js
+ * ─────────────────────────────────────────────────────────────────────
+ * Autonomous blog generation engine.
+ *
+ * Pipeline per run:
+ *   1. Scrape Google Trends → ranked list of live trending topics
+ *   2. Pick top topic not already in DB (deduplication)
+ *   3. Fetch relevant cover image (Trends thumbnail → Pollinations.ai → fallback)
+ *   4. Upload image to Cloudinary CDN
+ *   5. Generate full blog post via Gemini 2.5 Flash (grounded with live search)
+ *   6. Save to MongoDB (auto-slug, auto-indexed)
+ */
+
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 const cron = require('node-cron');
 const Blog = require('../models/blog');
+const { getTopTrends, getTopicCoverImage } = require('./trendsScraper');
 require('dotenv').config();
 
-// Configuration
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+// ─── Config ──────────────────────────────────────────────────────────
+
+const GEMINI_API_KEY    = process.env.GEMINI_API_KEY;
 const AUTO_BLOG_ENABLED = process.env.AUTO_BLOG_ENABLED === 'true';
-const INTERVAL_HOURS = process.env.AUTO_BLOG_INTERVAL_HOURS || 2;
-const USER_ID = process.env.AUTO_BLOG_USER_ID;
-const AI_BLOG_COVER_IMAGE = process.env.AI_BLOG_COVER_IMAGE;
+const INTERVAL_HOURS    = parseInt(process.env.AUTO_BLOG_INTERVAL_HOURS) || 2;
+const USER_ID           = process.env.AUTO_BLOG_USER_ID;
 
 if (!GEMINI_API_KEY) {
-    console.error("ERROR: GEMINI_API_KEY is missing in environment variables!");
-} else {
-    console.log(`AutoBlog Service: Debug - API Key loaded (Length: ${GEMINI_API_KEY.length})`);
+    console.error('AutoBlog: GEMINI_API_KEY is missing!');
 }
 
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
-async function generateTrendAndBlog() {
-    // UPDATED: Enable googleSearch tool for real-time data
+// ─── Step 1: Get live trend, deduplicated ─────────────────────────────
+
+async function pickTrendingTopic() {
+    // Fetch recent blog titles from DB (last 100) for deduplication
+    const recent = await Blog.find({})
+        .sort({ createdAt: -1 })
+        .limit(100)
+        .select('title')
+        .lean();
+    const skipTitles = recent.map(b => b.title.toLowerCase());
+
+    const trends = await getTopTrends({ top: 10, minVolume: 20000, skipTitles });
+    if (!trends.length) {
+        console.log('AutoBlog: No fresh trends found above minimum volume threshold.');
+        // Fall back to lower volume threshold
+        const fallback = await getTopTrends({ top: 5, minVolume: 1000, skipTitles });
+        return fallback[0] || null;
+    }
+    return trends[0]; // Highest search-volume topic
+}
+
+// ─── Step 2: Generate full blog post via Gemini ───────────────────────
+
+async function generateBlogContent(trend) {
     const model = genAI.getGenerativeModel({
-        model: "gemini-2.5-flash",
-        tools: [{ googleSearch: {} }]
+        model: 'gemini-2.5-flash',
+        tools: [{ googleSearch: {} }],
     });
 
-    // UPDATED: Get current date to anchor the AI's search
-    const today = new Date().toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'long', year: 'numeric' });
+    const today = new Date().toLocaleDateString('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        day: '2-digit', month: 'long', year: 'numeric',
+    });
+
+    const relatedContext = trend.relatedQueries?.length
+        ? `\nRelated searches: ${trend.relatedQueries.slice(0, 8).join(', ')}`
+        : '';
 
     const prompt = `
-    TODAY'S DATE: ${today}
-    LOCATION: India
+TODAY'S DATE: ${today}
+TRENDING TOPIC: "${trend.title}" (${trend.searchVolume?.toLocaleString()}+ searches today, +${trend.growthPct}% growth)${relatedContext}
 
-    Act as a professional trend analyst and content writer for Global. 
-    1. USE GOOGLE SEARCH to identify the TOP trending topic in WORLD RIGHT NOW (from the last 24 hours only) on google trends or news sites. 
-    2. Focus on News, Technology, Entertainment, or Sports happening specifically around ${today}.
-    3. Write a comprehensive, engaging blog post about this topic.
-    4. DO NOT use old topics (like NEET 2024). Verify the topic is from today or yesterday.
+You are an expert journalist writing for a global audience. The topic above is LIVE and TRENDING RIGHT NOW.
 
-    You MUST output the result as a STRICT JSON object in the following format:
-    {
-        "title": "A catchy, SEO-friendly title",
-        "introduction": "A compelling introduction (approx 100 words)",
-        "description": "A detailed body of the blog post (minimum 400 words). Use HTML tags like <p>, <h2>, <ul>, <li> for formatting.",
-        "tags": ["tag1", "tag2", "tag3", "tag4", "tag5"],
-        "category": "One of: Technology, Health, Education, Entertainment, Sports , News" ,
-        "author": "Trending Topics AI",
-        "image_keyword": "A single English keyword to search for a relevant image"
-    }
-    Output ONLY the raw JSON string. Do not include markdown formatting like \`\`\`json.
-    `;
+TASK: Write a comprehensive, well-researched blog post about this topic using Google Search to gather REAL, CURRENT facts, quotes, and details. This should read like a professional editorial — factual, engaging, and human in tone. NOT generic AI content.
 
-    try {
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        const text = response.text();
+RULES:
+- Write in a natural, editorial journalist style (avoid AI clichés like "In the rapidly evolving...", "It's worth noting...", "In conclusion..." etc.)
+- Use specific names, numbers, dates, and quotes from real sources
+- Structure the HTML with clear <h2> sections, <p> paragraphs, and <ul>/<li> lists where appropriate
+- Minimum 500 words in the description
+- The title must be specific and journalistic, NOT clickbait
 
-        // Cleanup JSON markdown if present
-        const jsonStr = text.replace(/```json/g, '').replace(/```/g, '').trim();
-        return JSON.parse(jsonStr);
-    } catch (error) {
-        console.error("Error generating content with Gemini:", error);
-        return null;
-    }
+OUTPUT FORMAT — strict JSON only, no markdown fences:
+{
+    "title": "Specific, factual, SEO-optimized title",
+    "introduction": "2-3 sentence punchy intro that hooks the reader (60-80 words). Mention the core fact immediately.",
+    "description": "Full HTML blog body — min 500 words. Use <h2>, <p>, <ul>, <li> tags. Rich in facts and context.",
+    "tags": ["tag1", "tag2", "tag3", "tag4", "tag5"],
+    "category": "One of: Technology | Health | Education | Entertainment | Sports | News",
+    "author": "TrendPulse AI"
 }
+`;
+
+    const result = await model.generateContent(prompt);
+    const text = result.response.text();
+    const jsonStr = text.replace(/```json/g, '').replace(/```/g, '').trim();
+    return JSON.parse(jsonStr);
+}
+
+// ─── Main Workflow ────────────────────────────────────────────────────
 
 async function runAutoBlogWorkflow() {
     if (!AUTO_BLOG_ENABLED) {
-        console.log("AutoBlog Service: Disabled via ENV.");
+        console.log('AutoBlog: Disabled via ENV.');
         return;
     }
 
-    console.log("AutoBlog Service: Starting workflow (Gemini-only mode)...");
+    console.log('AutoBlog: Starting workflow...');
 
-    const blogContent = await generateTrendAndBlog();
-
-    if (!blogContent) {
-        console.log("AutoBlog Service: Failed to generate content.");
+    // 1. Pick topic
+    let trend;
+    try {
+        trend = await pickTrendingTopic();
+    } catch (err) {
+        console.error('AutoBlog: Trend scraping failed:', err.message);
         return;
     }
 
-    console.log(`AutoBlog Service: generated topic: "${blogContent.title}"`);
+    if (!trend) {
+        console.log('AutoBlog: No suitable trend found — skipping this run.');
+        return;
+    }
 
-    const imageKeyword = blogContent.image_keyword || 'news';
-    // Use env variable if provided, otherwise fallback to the default Messi image
-    const blogImage = AI_BLOG_COVER_IMAGE || `https://i.ibb.co/0jVXC370/messi.webp`;
+    console.log(`AutoBlog: Selected topic → "${trend.title}" (${trend.searchVolume?.toLocaleString()} searches)`);
 
+    // 2. Get cover image (Tier 1 → Tier 2 → fallback, then upload to Cloudinary)
+    let coverImage;
+    try {
+        coverImage = await getTopicCoverImage(trend);
+    } catch (err) {
+        console.error('AutoBlog: Image pipeline failed:', err.message);
+        coverImage = 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1200&h=630&fit=crop';
+    }
+
+    // 3. Generate blog content
+    let blogContent;
+    try {
+        blogContent = await generateBlogContent(trend);
+    } catch (err) {
+        console.error('AutoBlog: Gemini generation failed:', err.message);
+        return;
+    }
+
+    if (!blogContent || !blogContent.title || !blogContent.description) {
+        console.log('AutoBlog: Gemini returned incomplete content — skipping.');
+        return;
+    }
+
+    console.log(`AutoBlog: Generated → "${blogContent.title}"`);
+
+    // 4. Save to MongoDB
     try {
         const newBlog = new Blog({
-            userId: USER_ID,
-            title: blogContent.title,
-            image: blogImage,
+            userId:       USER_ID,
+            title:        blogContent.title,
+            image:        coverImage,
             introduction: blogContent.introduction,
-            description: blogContent.description,
-            tags: blogContent.tags,
-            author: blogContent.author,
-            category: blogContent.category,
+            description:  blogContent.description,
+            tags:         blogContent.tags,
+            author:       blogContent.author || 'TrendPulse AI',
+            category:     blogContent.category,
         });
-
         await newBlog.save();
-        console.log(`AutoBlog Service: Successfully created blog "${newBlog.title}"`);
-
-    } catch (error) {
-        console.error("AutoBlog Service: Database save failed:", error);
+        console.log(`AutoBlog: ✅ Published "${newBlog.title}" (slug: ${newBlog.slug})`);
+    } catch (err) {
+        console.error('AutoBlog: DB save failed:', err.message);
     }
 }
 
+// ─── Scheduler ────────────────────────────────────────────────────────
+
 function startScheduler() {
     if (!AUTO_BLOG_ENABLED) {
-        console.log("AutoBlog Service: Disabled. Scheduler will not start.");
+        console.log('AutoBlog: Disabled. Scheduler will not start.');
         return;
     }
-
-    console.log(`AutoBlog Service: Scheduler started. Running every ${INTERVAL_HOURS} hours.`);
-
-    cron.schedule(`0 */${INTERVAL_HOURS} * * *`, () => {
-        runAutoBlogWorkflow();
-    });
+    console.log(`AutoBlog: Scheduler active — posting every ${INTERVAL_HOURS}h.`);
+    cron.schedule(`0 */${INTERVAL_HOURS} * * *`, runAutoBlogWorkflow);
 }
 
 module.exports = { startScheduler, runAutoBlogWorkflow };

@@ -83,7 +83,9 @@ router.get("/totalblogs", async (req, res) => {
     const blogs = await Blog.find(filter)
       .sort({ createdAt: -1 }) // newest first
       .skip((page - 1) * Number(limit))
-      .limit(Number(limit));
+      .limit(Number(limit))
+      .select('title slug image introduction tags category createdAt author')
+      .lean();
     res.status(200).json(blogs);
   } catch (error) {
     res.status(500).json({ message: "Error fetching blogs" });
@@ -98,7 +100,12 @@ router.get("/gethomeblogs", async (req, res) => {
     const limit = parseInt(req.query.limit) || 8; // default limit 8
     const page = parseInt(req.query.page) || 1;   // default page 1
     const skip = (page - 1) * limit;
-    const blogs = await Blog.find({}).skip(skip).limit(limit).sort({ createdAt: -1 });
+    const blogs = await Blog.find({})
+      .skip(skip)
+      .limit(limit)
+      .sort({ createdAt: -1 })
+      .select('title slug image introduction tags category createdAt author')
+      .lean();
     res.status(200).json(blogs);
   } catch (error) {
     res.status(500).json({ message: "Error fetching blogs" });

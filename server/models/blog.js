@@ -34,7 +34,13 @@ BlogSchema.index({ title: 'text', description: 'text', tags: 'text', author: 'te
 // 2. Compound Index for fast retrieval of user-specific blogs sorted by date
 BlogSchema.index({ userId: 1, createdAt: -1 });
 
-// 3. Index for latest blogs retrieval
+// 3. Index for latest blogs retrieval (home feed, sitemap)
 BlogSchema.index({ createdAt: -1 });
+
+// 4. Compound Index for category-filtered + date-sorted queries (/totalblogs?category=X)
+BlogSchema.index({ category: 1, createdAt: -1 });
+
+// 5. Slug unique lookup (blog detail page)
+BlogSchema.index({ slug: 1 }, { unique: true });
 
 module.exports = mongoose.model("Blog", BlogSchema);
