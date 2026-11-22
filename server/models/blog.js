@@ -40,7 +40,4 @@ BlogSchema.index({ createdAt: -1 });
 // 4. Compound Index for category-filtered + date-sorted queries (/totalblogs?category=X)
 BlogSchema.index({ category: 1, createdAt: -1 });
 
-// 5. Slug unique lookup (blog detail page)
-BlogSchema.index({ slug: 1 }, { unique: true });
-
 module.exports = mongoose.model("Blog", BlogSchema);

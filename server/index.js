@@ -1,6 +1,12 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const dns = require('dns');
+try {
+    dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch (e) {
+    // ignore
+}
 const slugify = require('slugify')
 require("dotenv").config();
 const Blog = require('./models/blog')

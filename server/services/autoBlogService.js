@@ -97,8 +97,17 @@ OUTPUT FORMAT — strict JSON only, no markdown fences:
 
     const result = await model.generateContent(prompt);
     const text = result.response.text();
-    const jsonStr = text.replace(/```json/g, '').replace(/```/g, '').trim();
-    return JSON.parse(jsonStr);
+    
+    // Extract JSON cleanly even if surrounded by commentary or fences
+    let cleanText = text.trim();
+    cleanText = cleanText.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim();
+    const firstBrace = cleanText.indexOf('{');
+    const lastBrace = cleanText.lastIndexOf('}');
+    if (firstBrace !== -1 && lastBrace !== -1) {
+        cleanText = cleanText.substring(firstBrace, lastBrace + 1);
+    }
+    
+    return JSON.parse(cleanText);
 }
 
 // ─── Main Workflow ────────────────────────────────────────────────────

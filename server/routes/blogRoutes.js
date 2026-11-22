@@ -175,4 +175,16 @@ router.delete("/deleteBlog/:blogId", authMiddleware, eeditorMiddleware, async (r
   }
 });
 
+const { runAutoBlogWorkflow } = require("../services/autoBlogService");
+
+// Manual trigger endpoint for testing or webhook triggers
+router.post("/api/admin/generate-blog", async (req, res) => {
+  try {
+    runAutoBlogWorkflow();
+    res.status(200).json({ message: "Auto-blog generation triggered successfully. Check database or feed in ~15-20s." });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to trigger blog generation", error: error.message });
+  }
+});
+
 module.exports = router;
