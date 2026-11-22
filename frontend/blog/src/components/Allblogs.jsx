@@ -25,9 +25,8 @@ const Allblogs = () => {
       <div className="py-5" style={{ background: 'var(--bg-primary)', minHeight: '100vh' }}>
         <Container>
           <div className="d-flex align-items-center gap-3 mb-5 border-bottom border-secondary pb-3">
-            <Cpu size={28} className="text-warning" />
             <h2 className="fw-bold mb-0 text-uppercase" style={{ fontFamily: 'var(--font-main)', letterSpacing: '-1px' }}>
-              Latest Intelligence
+              Latest Articles
             </h2>
           </div>
 

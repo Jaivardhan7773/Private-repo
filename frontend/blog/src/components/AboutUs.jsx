@@ -28,23 +28,23 @@ const AboutUs = () => {
             <Row className="align-items-center">
               <Col lg={7} md={12} className="text-center text-lg-start mb-4 mb-lg-0">
                 <div className="d-flex align-items-center justify-content-center justify-content-lg-start gap-2 mb-3 text-accent font-monospace small">
-                  <Info size={16} /> PLATFORM ARCHITECTURE & MISSION
+                  <Info size={16} /> ABOUT THE PLATFORM
                 </div>
                 <h1 className="fw-bold mb-4 display-4" style={{ fontFamily: 'var(--font-main)', color: 'var(--text-primary)', letterSpacing: '-1px' }}>
-                  AUTONOMOUS <span style={{ color: 'var(--accent-primary)' }}>INTELLIGENCE</span>
+                  Real-Time <span style={{ color: 'var(--accent-primary)' }}>Trend Journalism</span>
                 </h1>
                 <p className="lead text-secondary mb-4" style={{ lineHeight: '1.8', fontFamily: 'var(--font-mono)', fontSize: '0.95rem' }}>
-                  Trending Topics (AizenX) is an autonomous publishing and systems engineering platform
-                  architected by <strong style={{ color: 'var(--text-primary)' }}>Jaivardhan Singh</strong> (Lead Full Stack & AI Engineer).
-                  The engine autonomously monitors breakout queries on Google Trends, verifies current facts via Google Search Grounding,
-                  and composes rich, factual reports with Gemini 2.5 Flash — completely hands-free.
+                  Trending Topics is a modern publication and editorial engine architected by
+                  <strong style={{ color: 'var(--text-primary)' }}> Jaivardhan Singh</strong> (Lead Full Stack & AI Engineer).
+                  The platform monitors breakout queries on Google Trends, verifies current facts via Google Search Grounding,
+                  and composes factual, in-depth reports with Gemini 2.5 Flash.
                 </p>
                 <div className="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
                   <button
                     className="btn-primary-glow px-4 py-3 d-inline-flex align-items-center gap-2"
                     onClick={() => navigate('/portfolio')}
                   >
-                    <Terminal size={16} /> VIEW ENGINEER RESUME
+                    ABOUT DEVELOPER
                   </button>
                   <button
                     className="d-inline-flex align-items-center gap-2 px-4 py-3"
@@ -59,7 +59,7 @@ const AboutUs = () => {
                       fontWeight: 700,
                     }}
                   >
-                    EXPLORE ARCHIVES <ArrowRight size={16} />
+                    BROWSE ARTICLES <ArrowRight size={16} />
                   </button>
                 </div>
               </Col>
@@ -95,10 +95,10 @@ const AboutUs = () => {
           <Container>
             <div className="text-center mb-5">
               <h2 className="fw-bold mb-3" style={{ fontFamily: 'var(--font-main)', color: 'var(--text-primary)', letterSpacing: '-1px' }}>
-                CORE ARCHITECTURAL PILLARS
+                HOW TRENDING TOPICS WORKS
               </h2>
-              <p className="text-secondary mx-auto font-monospace small" style={{ maxWidth: '650px' }}>
-                Designed as a high-concurrency, production-grade distributed system.
+              <p className="text-secondary mx-auto font-mono small" style={{ maxWidth: '650px' }}>
+                An automated pipeline combining real-time trend discovery, verified AI research, and scalable infrastructure.
               </p>
             </div>
 
@@ -145,9 +145,9 @@ const AboutUs = () => {
         <Container className="py-5">
           <div className="text-center mb-5">
             <h2 className="fw-bold mb-3" style={{ fontFamily: 'var(--font-main)', color: 'var(--text-primary)', letterSpacing: '-1px' }}>
-              DIRECT TRANSMISSION
+              GET IN TOUCH
             </h2>
-            <p className="text-secondary font-monospace small">Have questions, feedback, or a role for the engineer? Initialize communication below.</p>
+            <p className="text-secondary font-mono small">Have questions, feedback, or an inquiry? Feel free to reach out below.</p>
           </div>
 
           <Row className="justify-content-center align-items-center g-5">

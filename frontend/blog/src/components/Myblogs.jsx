@@ -121,10 +121,10 @@ const Myblogs = () => {
           {/* Header Section */}
           <div className="d-flex flex-column align-items-center mb-5">
             <h1 className="fw-bold mb-3 text-uppercase" style={{ fontFamily: 'var(--font-main)', letterSpacing: '-1px', color: 'var(--text-primary)' }}>
-              OPERATIONAL <span style={{ color: 'var(--accent-primary)' }}>ARCHIVES</span>
+              MY <span style={{ color: 'var(--accent-primary)' }}>ARTICLES</span>
             </h1>
-            <p className="text-secondary font-monospace small mb-4">
-                &gt;&gt; MANAGE YOUR INTELLIGENCE DATA
+            <p className="text-secondary small mb-4">
+              Manage and write your published stories
             </p>
 
             <button
@@ -132,7 +132,7 @@ const Myblogs = () => {
               onClick={() => setShowCreateForm(!showCreateForm)}
               style={{ fontFamily: 'var(--font-mono)' }}
             >
-              {showCreateForm ? <><X size={18} /> CANCEL PROTOCOL</> : <><Plus size={18} /> INITIATE NEW ENTRY</>}
+              {showCreateForm ? <><X size={18} /> CANCEL</> : <><Plus size={18} /> WRITE NEW ARTICLE</>}
             </button>
           </div>
 
@@ -141,13 +141,13 @@ const Myblogs = () => {
           {showCreateForm && (
             <div className="glass-panel p-4 p-lg-5 mb-5 animate-slide-down border-accent">
               <h4 className="mb-4 d-flex align-items-center gap-2" style={{ color: 'var(--accent-primary)', fontFamily: 'var(--font-mono)' }}>
-                <Edit2 size={20} /> NEW ENTRY FORM
+                <Edit2 size={20} /> WRITE NEW ARTICLE
               </h4>
               <Form onSubmit={handleSubmit}>
                 <Row className="g-3">
                   <Col md={6}>
                     <Form.Group className="mb-3">
-                      <Form.Label className="small font-monospace text-muted">TITLE IDENTIFIER</Form.Label>
+                      <Form.Label className="small font-monospace text-muted">ARTICLE TITLE</Form.Label>
                       <div className="input-group">
                         <span className="input-group-text glass-input border-end-0 text-secondary"><Type size={18} /></span>
                         <Form.Control className="glass-input border-start-0 ps-0" type="text" name="title" value={blogData.title} onChange={handleChange} required placeholder="Enter blog title..." />
@@ -156,7 +156,7 @@ const Myblogs = () => {
                   </Col>
                   <Col md={6}>
                     <Form.Group className="mb-3">
-                      <Form.Label className="small font-monospace text-muted">CATEGORY CLASSIFICATION</Form.Label>
+                      <Form.Label className="small font-monospace text-muted">CATEGORY</Form.Label>
                       <Form.Select className="glass-input" name="category" value={blogData.category} onChange={handleChange} required>
                         <option value="" className="text-dark">Select Category</option>
                         <option value="Technology" className="text-dark">Technology</option>
@@ -170,7 +170,7 @@ const Myblogs = () => {
                 </Row>
 
                 <Form.Group className="mb-3">
-                  <Form.Label className="small font-monospace text-muted">VISUAL ASSET LINK</Form.Label>
+                  <Form.Label className="small font-monospace text-muted">COVER IMAGE URL</Form.Label>
                   <div className="input-group">
                     <span className="input-group-text glass-input border-end-0 text-secondary"><ImageIcon size={18} /></span>
                     <Form.Control className="glass-input border-start-0 ps-0" type="text" name="image" value={blogData.image} onChange={handleChange} required placeholder="https://..." />
@@ -179,7 +179,7 @@ const Myblogs = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label className="small font-monospace text-muted">BRIEFING (SUMMARY)</Form.Label>
+                  <Form.Label className="small font-monospace text-muted">SHORT SUMMARY</Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={3}
@@ -193,7 +193,7 @@ const Myblogs = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label className="small font-monospace text-muted">MAIN DATABASE CONTENT</Form.Label>
+                  <Form.Label className="small font-monospace text-muted">ARTICLE CONTENT</Form.Label>
                   <div style={{ borderRadius: '0px', overflow: 'hidden', border: '1px solid var(--border-color)' }}>
                     <Editor
                       onEditorChange={(content) =>
@@ -220,7 +220,7 @@ const Myblogs = () => {
                 </Form.Group>
 
                 <button type="submit" className="btn-primary-glow w-100 py-3 d-flex align-items-center justify-content-center gap-2" disabled={isloading}>
-                  {isloading ? <><Spinner animation="border" size="sm" /> PROCESSING...</> : <><Save size={18} /> UPLOAD TO MAINFRAME</>}
+                  {isloading ? <><Spinner animation="border" size="sm" /> Publishing...</> : <><Save size={18} /> PUBLISH ARTICLE</>}
                 </button>
               </Form>
             </div>
@@ -305,8 +305,8 @@ const Myblogs = () => {
           ) : (
             <div className="text-center py-5 glass-panel">
               <div className="mb-3 text-secondary opacity-50"><AlignLeft size={48} /></div>
-              <h4 style={{ color: 'var(--text-primary)' }}>NO DATA ENTRIES FOUND.</h4>
-              <p className="text-secondary">Initiate new entry to populate the archives.</p>
+              <h4 style={{ color: 'var(--text-primary)' }}>No articles published yet.</h4>
+              <p className="text-secondary">Click above to write your first article.</p>
             </div>
           )}
 
@@ -320,7 +320,7 @@ const Myblogs = () => {
           >
             <Modal.Header closeButton closeVariant="white" style={{ borderBottom: '1px solid var(--border-color)' }}>
               <Modal.Title style={{ fontFamily: 'var(--font-mono)', color: 'var(--accent-primary)' }}>
-                <Edit2 size={20} className="me-2" /> UPDATE ENTRY
+                <Edit2 size={20} className="me-2" /> EDIT ARTICLE
               </Modal.Title>
             </Modal.Header>
             <Modal.Body style={{ background: 'var(--bg-secondary)' }}>

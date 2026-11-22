@@ -133,9 +133,9 @@ const UserProfile = () => {
 
           <div className="text-center mb-5 animate-fade-in">
             <h1 className="fw-bold display-5" style={{ fontFamily: 'var(--font-main)', color: 'var(--text-primary)' }}>
-              USER <span className="text-accent">DASHBOARD</span>
+              MY <span className="text-accent">PROFILE</span>
             </h1>
-            <p className="text-secondary font-monospace small">&gt;&gt; IDENTITY VERIFICATION &amp; DATA MANAGEMENT</p>
+            <p className="text-secondary small">Manage your personal details and account settings</p>
           </div>
 
           <Row className="justify-content-center">
@@ -144,7 +144,7 @@ const UserProfile = () => {
 
                 <div className="d-flex align-items-center gap-2 mb-4 pb-3 border-bottom border-secondary">
                   <Shield className="text-accent" size={24} />
-                  <h4 className="mb-0 fw-bold" style={{ fontFamily: 'var(--font-main)', color: 'var(--text-primary)' }}>ACCOUNT IDENTITY</h4>
+                  <h4 className="mb-0 fw-bold" style={{ fontFamily: 'var(--font-main)', color: 'var(--text-primary)' }}>PERSONAL INFORMATION</h4>
                 </div>
 
                 <Form>
@@ -191,7 +191,7 @@ const UserProfile = () => {
                             className="d-flex align-items-center gap-2 rounded-0 font-monospace"
                           >
                             {imageuploading ? <Spinner animation="border" size="sm" /> : <Trash2 size={16} />}
-                            PURGE PHOTO
+                            REMOVE PHOTO
                           </Button>
                         ) : (
                           <>
@@ -204,7 +204,7 @@ const UserProfile = () => {
                                 className="d-none"
                               />
                               <label htmlFor="file-upload" className="btn btn-outline-secondary btn-sm rounded-0 font-monospace d-flex align-items-center gap-2 cursor-pointer me-2">
-                                <Camera size={16} /> SELECT FILE
+                                <Camera size={16} /> CHOOSE PHOTO
                               </label>
 
                               <Button
@@ -212,7 +212,7 @@ const UserProfile = () => {
                                 onClick={handleUpload}
                                 disabled={imageuploading || !imageFile}
                               >
-                                {imageuploading ? <Spinner animation="border" size="sm" /> : <><Upload size={16} /> UPLOAD</>}
+                                {imageuploading ? <Spinner animation="border" size="sm" /> : <><Upload size={16} /> UPLOAD PHOTO</>}
                               </Button>
                             </div>
                             {imageFile && <span className="text-accent small ms-2">{imageFile.name}</span>}
@@ -225,7 +225,7 @@ const UserProfile = () => {
                   <Row>
                     <Col md={6}>
                       <Form.Group className="mb-4">
-                        <Form.Label className="small font-monospace text-muted">FULL DESIGNATION</Form.Label>
+                        <Form.Label className="small font-monospace text-muted">FULL NAME</Form.Label>
                         <InputGroup>
                           <InputGroup.Text className="glass-input border-end-0 text-secondary"><User size={18} /></InputGroup.Text>
                           <Form.Control
@@ -241,7 +241,7 @@ const UserProfile = () => {
                     </Col>
                     <Col md={6}>
                       <Form.Group className="mb-4">
-                        <Form.Label className="small font-monospace text-muted">COMMUNICATION LINK</Form.Label>
+                        <Form.Label className="small font-monospace text-muted">EMAIL ADDRESS</Form.Label>
                         <InputGroup>
                           <InputGroup.Text className="glass-input border-end-0 text-secondary"><Mail size={18} /></InputGroup.Text>
                           <Form.Control
@@ -260,7 +260,7 @@ const UserProfile = () => {
                   <Row>
                     <Col md={6}>
                       <Form.Group className="mb-4">
-                        <Form.Label className="small font-monospace text-muted">CONTACT FREQUENCY</Form.Label>
+                        <Form.Label className="small font-monospace text-muted">PHONE NUMBER</Form.Label>
                         <InputGroup>
                           <InputGroup.Text className="glass-input border-end-0 text-secondary"><Phone size={18} /></InputGroup.Text>
                           <Form.Control
@@ -276,7 +276,7 @@ const UserProfile = () => {
                     </Col>
                     <Col md={6}>
                       <Form.Group className="mb-4">
-                        <Form.Label className="small font-monospace text-muted">BIOLOGICAL CLASS</Form.Label>
+                        <Form.Label className="small font-monospace text-muted">GENDER</Form.Label>
                         <InputGroup>
                           <InputGroup.Text className="glass-input border-end-0 text-secondary"><Users size={18} /></InputGroup.Text>
                           <Form.Select
@@ -285,9 +285,9 @@ const UserProfile = () => {
                             value={formData?.gender}
                             onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
                           >
-                            <option value="male" className="text-dark">MALE</option>
-                            <option value="female" className="text-dark">FEMALE</option>
-                            <option value="other" className="text-dark">OTHER</option>
+                            <option value="male" className="text-dark">Male</option>
+                            <option value="female" className="text-dark">Female</option>
+                            <option value="other" className="text-dark">Other</option>
                           </Form.Select>
                         </InputGroup>
                       </Form.Group>
@@ -303,10 +303,10 @@ const UserProfile = () => {
                       {isLoading || saving ? (
                         <>
                           <Spinner animation="border" size="sm" className="me-2" />
-                          PROCESSING...
+                          Saving...
                         </>
                       ) : (
-                        <><Save size={18} className="me-2" /> SAVE DATA</>
+                        <><Save size={18} className="me-2" /> SAVE CHANGES</>
                       )}
                     </button>
                   </div>

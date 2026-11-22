@@ -14,31 +14,31 @@ AOS.init();
 const DEFAULT_SLIDES = [
   {
     _id: "default-1",
-    title: "AUTONOMOUS GOOGLE TRENDS ENGINE",
-    category: "AI & SYSTEMS",
+    title: "Tracking Real-Time Trends Across the Globe",
+    category: "Culture & Trends",
     image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&h=700&q=80",
-    description: "Live breakout topics scraped directly from Google Trends, verified through Google Search grounding, and published with zero manual overhead.",
-    author: "TrendPulse AI",
+    description: "Discover what the world is talking about right now, analyzed and contextualized with real-time research.",
+    author: "Editorial Team",
     date: new Date().toISOString().split("T")[0],
     isArticle: false,
   },
   {
     _id: "default-2",
-    title: "GEMINI 2.5 FLASH EDITORIAL PIPELINE",
-    category: "LLM ORCHESTRATION",
+    title: "The Rapid Evolution of Artificial Intelligence & Tech",
+    category: "Technology",
     image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1600&h=700&q=80",
-    description: "Multi-modal journalist prompt engine generating rich, structured 500+ word articles with multi-tier cover image routing to Cloudinary CDN.",
+    description: "In-depth explorations of the latest breakthroughs in software engineering, AI agents, and modern cloud infrastructure.",
     author: "Jaivardhan Singh",
     date: new Date().toISOString().split("T")[0],
     isArticle: false,
   },
   {
     _id: "default-3",
-    title: "HIGH-CONCURRENCY MONGODB ARCHITECTURE",
-    category: "INFRASTRUCTURE",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&h=700&q=80",
-    description: "Full-text text indexing, compound date+category indexing, and .lean() field projections for sub-50ms high-traffic feed queries.",
-    author: "Lead AI Engineer",
+    title: "Breaking News & Global Perspectives",
+    category: "World News",
+    image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1600&h=700&q=80",
+    description: "Comprehensive reporting and context on breaking events, politics, sports, and international developments.",
+    author: "Trending Topics",
     date: new Date().toISOString().split("T")[0],
     isArticle: false,
   }
@@ -80,7 +80,7 @@ const CarouselComponent = () => {
       title: b.title,
       description: b.introduction?.slice(0, 140) + "...",
       image: b.image,
-      category: b.category || "INTELLIGENCE",
+      category: b.category || "Trending",
       author: b.author || "TrendPulse AI",
       date: new Date(b.createdAt || Date.now()).toISOString().split("T")[0],
       slug: b.slug,
@@ -97,71 +97,69 @@ const CarouselComponent = () => {
       {/* ── HERO BANNER ────────────────────────────────────────── */}
       <section className="text-center pt-4 pb-5">
         <div className="container">
-          {/* Status Badge */}
+          {/* Tag */}
           <div
             className="d-inline-flex align-items-center gap-2 px-3 py-1 mb-3"
             style={{
               background: 'rgba(245, 158, 11, 0.08)',
-              border: '1px solid rgba(245, 158, 11, 0.3)',
+              border: '1px solid rgba(245, 158, 11, 0.25)',
               color: 'var(--accent-primary)',
               fontFamily: 'var(--font-mono)',
               fontSize: '0.75rem',
-              letterSpacing: '1.5px',
-              textTransform: 'uppercase',
+              letterSpacing: '1px',
+              borderRadius: '20px',
             }}
           >
             <span
               style={{
-                width: '7px',
-                height: '7px',
+                width: '6px',
+                height: '6px',
                 borderRadius: '50%',
                 background: 'var(--accent-primary)',
                 display: 'inline-block',
-                boxShadow: '0 0 8px var(--accent-primary)'
               }}
             />
-            AUTONOMOUS TREND ENGINE // REAL-TIME GOOGLE SEARCH GROUNDING
+            Real-Time Trends &amp; In-Depth Analysis
           </div>
 
           <h1
             className="fw-bold mb-3 display-4"
             style={{
               fontFamily: 'var(--font-main)',
-              letterSpacing: '-2px',
+              letterSpacing: '-1.5px',
               color: 'var(--text-primary)',
               lineHeight: 1.15
             }}
           >
-            GLOBAL TRENDS & <span style={{ color: 'var(--accent-primary)' }}>AUTONOMOUS INTELLIGENCE</span>
+            Today's Top Stories &amp; <span style={{ color: 'var(--accent-primary)' }}>Breaking Trends</span>
           </h1>
 
           <p
             className="lead mb-4 mx-auto"
             style={{
-              maxWidth: '720px',
+              maxWidth: '680px',
               color: 'var(--text-secondary)',
               fontFamily: 'var(--font-mono)',
               fontSize: '0.95rem',
               lineHeight: '1.7'
             }}
           >
-            Scraping live breakout queries from Google Trends, synthesizing real-time facts with
-            Gemini 2.5 Flash, and serving through high-concurrency MongoDB indexes and Cloudinary CDN.
-            Architected by <span style={{ color: 'var(--text-primary)' }}>Jaivardhan Singh</span>.
+            Curated coverage of breaking events, technology, culture, and global news —
+            researched in real time with verified sources and comprehensive context.
           </p>
 
-          <div className="d-flex justify-content-center flex-wrap gap-3 mb-4">
+          <div className="d-flex justify-content-center flex-wrap gap-3 mb-2">
             <NavLink
               to="/totalblogs"
               className="btn-primary-glow text-decoration-none d-inline-flex align-items-center gap-2"
               style={{ padding: '12px 24px' }}
             >
               <Globe size={16} />
-              EXPLORE ALL INTEL
+              Browse All Articles
             </NavLink>
 
             <NavLink
-              to="/portfolio"
+              to="/aboutus"
               className="d-inline-flex align-items-center gap-2 text-decoration-none"
               style={{
                 padding: '12px 24px',
@@ -169,41 +167,16 @@ const CarouselComponent = () => {
                 color: 'var(--text-primary)',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.8rem',
-                letterSpacing: '1px',
-                fontWeight: 700,
+                letterSpacing: '0.5px',
+                fontWeight: 600,
                 background: 'var(--bg-secondary)',
                 transition: 'border-color 0.2s',
               }}
               onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--accent-primary)'}
               onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--border-color)'}
             >
-              <Terminal size={16} />
-              SYSTEM ARCHITECTURE & RESUME
+              About the Platform
             </NavLink>
-          </div>
-
-          {/* Quick Technical Spec Pills */}
-          <div className="d-flex flex-wrap justify-content-center gap-3 pt-3 border-top border-secondary">
-            {[
-              { label: 'DATA: GOOGLE TRENDS LIVE', icon: Globe },
-              { label: 'AI: GEMINI 2.5 FLASH', icon: Cpu },
-              { label: 'MEDIA: CLOUDINARY CDN', icon: Sparkles },
-              { label: 'DATABASE: MONGODB INDEXED', icon: Database },
-            ].map(({ label, icon: Icon }) => (
-              <div
-                key={label}
-                className="d-flex align-items-center gap-2"
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.72rem',
-                  color: 'var(--text-secondary)',
-                  letterSpacing: '0.5px',
-                }}
-              >
-                <Icon size={13} style={{ color: 'var(--accent-primary)' }} />
-                <span>{label}</span>
-              </div>
-            ))}
           </div>
         </div>
       </section>

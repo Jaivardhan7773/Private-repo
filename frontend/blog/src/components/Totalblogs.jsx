@@ -96,10 +96,10 @@ const Totalblogs = () => {
           {/* Header & Filters */}
           <div className="d-flex flex-column align-items-center mb-5">
             <h1 className="fw-bold mb-3 text-uppercase" style={{ fontFamily: 'var(--font-main)', letterSpacing: '-1px', color: 'var(--text-primary)' }}>
-              INTELLIGENCE <span style={{ color: 'var(--accent-primary)' }}>DATABASE</span>
+              ALL <span style={{ color: 'var(--accent-primary)' }}>ARTICLES</span>
             </h1>
-            <p className="text-secondary font-monospace small mb-5">
-              SEARCH AND RETRIEVE RECORDS
+            <p className="text-secondary small mb-5">
+              Explore breaking stories and in-depth analysis across all categories
             </p>
 
             <div className="w-100 p-4 glass-panel mb-4">
@@ -109,7 +109,7 @@ const Totalblogs = () => {
                   <span className="position-absolute top-50 translate-middle-y text-secondary" style={{ left: '15px' }}><Search size={18} /></span>
                   <input
                     type="text"
-                    placeholder="SEARCH KEYWORDS..."
+                    placeholder="Search articles, topics or keywords..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="glass-input w-100 ps-5"
@@ -125,7 +125,7 @@ const Totalblogs = () => {
                     className="glass-input ps-5 w-100"
                     style={{ appearance: 'none' }}
                   >
-                    <option value="">ALL CATEGORIES</option>
+                    <option value="">All Categories</option>
                     <option value="Technology">Technology</option>
                     <option value="Health">Health</option>
                     <option value="Finance">Finance</option>
@@ -190,7 +190,7 @@ const Totalblogs = () => {
                           <div className="d-flex align-items-center gap-2 small text-muted font-monospace">
                             <User size={14} className="text-accent" /> {blog.author}
                           </div>
-                          <small className="text-accent text-uppercase font-monospace">Reading Access &rarr;</small>
+                          <small className="text-accent font-monospace">Read Article &rarr;</small>
                         </div>
                       </div>
                     </div>
@@ -222,8 +222,8 @@ const Totalblogs = () => {
           {!isLoading && blogs.length === 0 && (
             <div className="text-center py-5 glass-panel">
               <div className="mb-3 text-secondary opacity-50"><AlignLeft size={48} /></div>
-              <h4 style={{ color: 'var(--text-primary)' }}>NO INTELLIGENCE FOUND.</h4>
-              <p className="text-secondary">Adjust search parameters to locate data.</p>
+              <h4 style={{ color: 'var(--text-primary)' }}>No articles found.</h4>
+              <p className="text-secondary">Try adjusting your search keywords or category filters.</p>
             </div>
           )}
         </Container>

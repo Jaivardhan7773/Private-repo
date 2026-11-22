@@ -66,21 +66,6 @@ const Navbarog = () => {
 
   return (
     <>
-      {/* Industrial Top Bar */}
-      <div style={{
-        background: 'var(--accent-primary)',
-        color: '#000',
-        fontSize: '0.7rem',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        padding: '2px 0',
-        fontFamily: 'var(--font-mono)',
-        textTransform: 'uppercase',
-        letterSpacing: '2px'
-      }}>
-        System Status: Operational // Built by Jaivardhan Singh — AI & Full Stack Engineer
-      </div>
-
       <Navbar expand="lg" expanded={expanded}
         onToggle={() => setExpanded((prev) => !prev)}
         className="sticky-top py-3"
@@ -108,10 +93,9 @@ const Navbarog = () => {
               fontWeight: '800',
               fontSize: '0.8rem'
             }}>
-              AX
+              TT
             </div>
-            Aizen<span style={{ color: 'var(--accent-primary)' }}>X</span>
-            <span style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)', fontWeight: 400 }}>// INTEL</span>
+            Trending<span style={{ color: 'var(--accent-primary)' }}>Topics</span>
           </Navbar.Brand>
 
           <Navbar.Toggle aria-controls="navbarScroll" style={{ borderColor: 'var(--border-color)' }}>
@@ -122,12 +106,12 @@ const Navbarog = () => {
             <Nav className="mx-auto d-flex justify-content-center align-items-center w-100 gap-2" navbarScroll style={{ position: 'relative' }}>
               {[
                 { path: '/', label: 'Home', show: true },
-                { path: '/user/myblogs', label: 'My Blogs', show: authUser?.isEditor },
-                { path: '/totalblogs', label: 'All Blogs', show: true },
-                { path: '/admin/manage-users', label: 'Admin', show: authUser?.isAdmin },
-                { path: '/video', label: 'Lyrics', show: true },
+                { path: '/totalblogs', label: 'Articles', show: true },
                 { path: '/aboutus', label: 'About', show: true },
                 { path: '/portfolio', label: 'Portfolio', show: true },
+                { path: '/video', label: 'Lyrics', show: true },
+                { path: '/user/myblogs', label: 'My Blogs', show: authUser?.isEditor },
+                { path: '/admin/manage-users', label: 'Admin', show: authUser?.isAdmin },
               ].filter(link => link.show).map((link) => (
                 <NavLink
                   key={link.path}
@@ -257,9 +241,9 @@ const Navbarog = () => {
                     borderRadius: 0,
                     marginTop: '10px'
                   }}>
-                    <Dropdown.Item as={NavLink} to="/Userprofile" className='text-light font-monospace small'>PROFILE DATABASE</Dropdown.Item>
+                    <Dropdown.Item as={NavLink} to="/Userprofile" className='text-light font-monospace small'>My Profile</Dropdown.Item>
                     <Dropdown.Divider style={{ borderColor: 'var(--border-color)' }} />
-                    <Dropdown.Item onClick={logout} className='text-danger font-monospace small'>TERMINATE SESSION</Dropdown.Item>
+                    <Dropdown.Item onClick={logout} className='text-danger font-monospace small'>Sign Out</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
               ) : (
@@ -282,7 +266,7 @@ const Navbarog = () => {
                     cursor: 'pointer',
                   }}
                 >
-                  INITIALIZE
+                  Sign In
                 </motion.button>
               )}
             </div>

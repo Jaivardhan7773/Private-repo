@@ -55,24 +55,24 @@ const Home = () => {
                       fontSize: '0.65rem',
                       fontWeight: 700,
                       padding: '2px 8px',
-                      letterSpacing: '1px'
+                      letterSpacing: '0.5px'
                     }}>
-                      SYSTEMS ARCHITECTURE
+                      ABOUT THE PLATFORM
                     </span>
                   </div>
-                  <h4 className="fw-bold mb-2 text-uppercase" style={{ letterSpacing: '-1px', color: 'var(--text-primary)' }}>
-                    Agentic AI Pipeline
+                  <h4 className="fw-bold mb-2 text-uppercase" style={{ letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
+                    Autonomous Editorial Engine
                   </h4>
                   <p className="small text-secondary mb-4" style={{ fontFamily: 'var(--font-mono)', lineHeight: '1.6' }}>
-                    Engineered by <strong>Jaivardhan Singh</strong>. Autonomous Google Trends scraping,
-                    Gemini 2.5 Flash research grounding, multi-tier Cloudinary asset routing, and
-                    MongoDB performance indexing.
+                    Engineered by <strong>Jaivardhan Singh</strong>. Autonomous trend monitoring,
+                    Gemini 2.5 Flash research grounding, Cloudinary media delivery, and
+                    high-performance database indexing.
                   </p>
                   <button
                     className="btn-primary-glow w-50 py-2 small"
                     onClick={() => navigate("/portfolio")}
                   >
-                    VIEW PORTFOLIO & CV
+                    ABOUT DEVELOPER
                   </button>
                 </div>
               </div>
@@ -101,20 +101,20 @@ const Home = () => {
                       fontSize: '0.65rem',
                       fontWeight: 700,
                       padding: '2px 8px',
-                      letterSpacing: '1px'
+                      letterSpacing: '0.5px'
                     }}>
-                      DATABASE INDEXED
+                      DIRECTORY
                     </span>
                   </div>
-                  <h4 className="fw-bold mb-2 text-uppercase" style={{ letterSpacing: '-1px', color: 'var(--text-primary)' }}>
-                    Intelligence Archives
+                  <h4 className="fw-bold mb-2 text-uppercase" style={{ letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
+                    Explore All Topics
                   </h4>
                   <p className="small text-secondary mb-4" style={{ fontFamily: 'var(--font-mono)', lineHeight: '1.6' }}>
-                    Browse all verified, categorized reports across Technology, Sports, News,
-                    and Entertainment with real-time text search and sub-50ms retrieval.
+                    Browse verified, categorized stories across Technology, Sports, News,
+                    and Culture with instant full-text search.
                   </p>
                   <NavLink to="/totalblogs">
-                    <button className="btn-primary-glow w-50 py-2 small">EXPLORE ALL ARTICLES</button>
+                    <button className="btn-primary-glow w-50 py-2 small">BROWSE ARTICLES</button>
                   </NavLink>
                 </div>
               </div>

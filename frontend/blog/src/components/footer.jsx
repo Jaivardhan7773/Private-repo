@@ -35,15 +35,12 @@ const Footer = () => {
                 fontWeight: '800',
                 fontSize: '0.85rem'
               }}>
-                AX
+                TT
               </div>
-              Aizen<span style={{ color: 'var(--accent-primary)' }}>X</span>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', fontWeight: 400 }}>// INTEL</span>
+              Trending<span style={{ color: 'var(--accent-primary)' }}>Topics</span>
             </Navbar.Brand>
-            <p className="mb-4" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem' }}>
-              &gt;&gt; Your go-to platform for creating and managing blogs.
-              <br />
-              &gt;&gt; Explore stories, culture, and more.
+            <p className="mb-4 text-secondary" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.88rem', lineHeight: '1.6' }}>
+              Real-time trending stories, in-depth analysis, and cultural reporting from across the web.
             </p>
             <div className='d-flex gap-3'>
               <a href="https://github.com/Jaivardhan7773" target="_blank" className="text-secondary hover-accent"><Github size={20} /></a>
@@ -58,10 +55,10 @@ const Footer = () => {
             <h5 className="text-uppercase fw-bold mb-4" style={{ color: 'var(--text-primary)', letterSpacing: '1px' }}>Quick Navigation</h5>
             <ul className="list-unstyled d-flex flex-column gap-2" style={{ fontFamily: 'var(--font-mono)' }}>
               <li><NavLink to="/" className="text-decoration-none text-secondary hover-accent d-flex align-items-center gap-2"><ArrowRight size={14} /> HOME</NavLink></li>
-              <li><NavLink to="/totalblogs" className="text-decoration-none text-secondary hover-accent d-flex align-items-center gap-2"><ArrowRight size={14} /> INTEL</NavLink></li>
-              <li><NavLink to="/user/myblogs" className="text-decoration-none text-secondary hover-accent d-flex align-items-center gap-2"><ArrowRight size={14} /> MY ARCHIVES</NavLink></li>
-              <li><NavLink to="/admin/manage-users" className="text-decoration-none text-secondary hover-accent d-flex align-items-center gap-2"><ArrowRight size={14} /> ADMIN COMMAND</NavLink></li>
+              <li><NavLink to="/totalblogs" className="text-decoration-none text-secondary hover-accent d-flex align-items-center gap-2"><ArrowRight size={14} /> ARTICLES</NavLink></li>
+              <li><NavLink to="/aboutus" className="text-decoration-none text-secondary hover-accent d-flex align-items-center gap-2"><ArrowRight size={14} /> ABOUT</NavLink></li>
               <li><NavLink to="/portfolio" className="text-decoration-none text-secondary hover-accent d-flex align-items-center gap-2"><ArrowRight size={14} /> PORTFOLIO</NavLink></li>
+              <li><NavLink to="/user/myblogs" className="text-decoration-none text-secondary hover-accent d-flex align-items-center gap-2"><ArrowRight size={14} /> MY ARTICLES</NavLink></li>
             </ul>
 
             <h5 className="text-uppercase fw-bold mb-3 mt-4" style={{ color: 'var(--text-primary)', letterSpacing: '1px' }}>Legal</h5>
@@ -74,7 +71,7 @@ const Footer = () => {
 
 
           <Col lg={4}>
-            <h5 className="text-uppercase fw-bold mb-4" style={{ color: 'var(--text-primary)', letterSpacing: '1px' }}>Transmission Channels</h5>
+            <h5 className="text-uppercase fw-bold mb-4" style={{ color: 'var(--text-primary)', letterSpacing: '1px' }}>Contact &amp; Inquiries</h5>
             <p className="mb-2" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem' }}>EMAIL: <a href="mailto:jaivardhansinghrathore17@gmail.com" className="text-accent hover-accent text-decoration-none">jaivardhansinghrathore17@gmail.com</a></p>
             <p className="mb-4" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem' }}>PORTFOLIO: <a href="/portfolio" className="text-accent hover-accent text-decoration-none">trendingtopics.space/portfolio</a></p>
 
@@ -102,7 +99,7 @@ const Footer = () => {
 
         <div className="border-top border-secondary mt-5 pt-4 text-center">
           <p className="mb-0 small font-monospace text-muted">
-            &copy; {new Date().getFullYear()} AIZENX INTELLIGENCE SYSTEMS. ARCHITECTED BY <NavLink to="/portfolio" className="text-accent text-decoration-none">JAIVARDHAN SINGH</NavLink>.
+            &copy; {new Date().getFullYear()} TRENDINGTOPICS. CREATED BY <NavLink to="/portfolio" className="text-accent text-decoration-none">JAIVARDHAN SINGH</NavLink>.
             <br />
             ALL RIGHTS RESERVED.
           </p>

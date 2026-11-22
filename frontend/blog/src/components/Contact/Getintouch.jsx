@@ -35,12 +35,10 @@ const Getintouch = () => {
                                     <MessageSquare size={32} color="var(--accent-primary)" />
                                 </div>
                                 <h1 className="fw-bold mb-3" style={{ fontFamily: 'var(--font-main)', letterSpacing: '-1px' }}>
-                                    TRANSMIT <span style={{ color: 'var(--accent-primary)' }}>DATA</span>
+                                    GET IN <span style={{ color: 'var(--accent-primary)' }}>TOUCH</span>
                                 </h1>
-                                <p className="text-secondary mx-auto col-md-10" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem' }}>
-                                    &gt;&gt; Share your thoughts about the Platform.
-                                    <br />
-                                    &gt;&gt; Inquire for collaboration &amp; development.
+                                <p className="text-secondary mx-auto col-md-10" style={{ fontSize: '0.95rem' }}>
+                                    Have feedback, a question, or a collaboration inquiry? Reach out below.
                                 </p>
                             </div>
 
@@ -48,12 +46,12 @@ const Getintouch = () => {
                                 <div className="row g-4">
                                     <div className="col-md-6">
                                         <div className="form-group">
-                                            <label className="mb-2 font-monospace small text-uppercase" style={{ color: 'var(--accent-primary)' }}>Identification</label>
+                                            <label className="mb-2 font-monospace small text-uppercase" style={{ color: 'var(--accent-primary)' }}>Your Name</label>
                                             <input
                                                 type="text"
                                                 name="name"
                                                 className="glass-input w-100 p-3"
-                                                placeholder="ENTER DESIGNATION"
+                                                placeholder="Enter your name"
                                                 value={formData.name}
                                                 onChange={handleChange}
                                                 style={{ borderRadius: 0 }}
@@ -62,12 +60,12 @@ const Getintouch = () => {
                                     </div>
                                     <div className="col-md-6">
                                         <div className="form-group">
-                                            <label className="mb-2 font-monospace small text-uppercase" style={{ color: 'var(--accent-primary)' }}>Communication Channel</label>
+                                            <label className="mb-2 font-monospace small text-uppercase" style={{ color: 'var(--accent-primary)' }}>Your Email</label>
                                             <input
                                                 type="email"
                                                 name="email"
                                                 className="glass-input w-100 p-3"
-                                                placeholder="ENTER EMAIL ADDRESS"
+                                                placeholder="Enter your email address"
                                                 value={formData.email}
                                                 onChange={handleChange}
                                                 required
@@ -77,10 +75,10 @@ const Getintouch = () => {
                                     </div>
                                     <div className="col-12">
                                         <div className="form-group">
-                                            <label className="mb-2 font-monospace small text-uppercase" style={{ color: 'var(--accent-primary)' }}>Transmission Content</label>
+                                            <label className="mb-2 font-monospace small text-uppercase" style={{ color: 'var(--accent-primary)' }}>Your Message</label>
                                             <textarea
                                                 className="glass-input w-100 p-3"
-                                                placeholder="TYPE MESSAGE..."
+                                                placeholder="Write your message here..."
                                                 rows="5"
                                                 name="description"
                                                 value={formData.description}
@@ -98,11 +96,11 @@ const Getintouch = () => {
                                             style={{ minWidth: '200px', justifyContent: 'center' }}
                                         >
                                             {isLoading ? (
-                                                <>SENDING PACKET...</>
+                                                <>Sending...</>
                                             ) : (
                                                 <>
                                                     <Send size={18} />
-                                                    INITIATE TRANSMISSION
+                                                    SEND MESSAGE
                                                 </>
                                             )}
                                         </button>
